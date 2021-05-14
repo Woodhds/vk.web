@@ -6,7 +6,7 @@
       </button>
     </div>
     <div class="flex flex-col mb-2 items-center">
-      <img class="h-32 w-48 mb-2" :src="srcImg" />
+      <img ref="img" class="h-32 w-48 mb-2" :src="srcImg" />
       <ul class="flex flex-wrap items-center justify-center h-4">
         <li
           v-for="(image, i) in imagePoints"
@@ -31,16 +31,19 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { computed, defineProps, ref } from 'vue'
+import { computed, defineProps, onMounted, onUnmounted, ref } from 'vue'
 
 const props = defineProps({
   src: {
-    type: Array,
+    type: Array as () => Array<string>,
     default: () => [],
   },
 })
 
 const currentImage = ref(0)
+const img = ref<HTMLImageElement | null>(null)
+const observer = ref<IntersectionObserver | null>(null)
+const visible = ref(false)
 
 const totalImage = computed(() => {
   return props.src.length
@@ -64,10 +67,32 @@ const prev = () => {
 }
 
 const srcImg = computed(() => {
-  return props.src.length > 0
-    ? props.src[currentImage.value]
-    : 'src/assets/images/nophoto.png'
+  return visible.value
+    ? props.src.length > 0
+      ? props.src[currentImage.value]
+      : 'src/assets/images/nophoto.png'
+    : null
 })
+
+onMounted(() => {
+  if (!img.value) return
+
+  observer.value = new IntersectionObserver((entries, imgObserver) => {
+    entries.forEach((x) => {
+      if (x.isIntersecting && img.value) {
+        visible.value = true
+        imgObserver.unobserve(x.target)
+      }
+    })
+  })
+  observer.value.observe(img.value)
+})
+
+onUnmounted(() => {
+  if (!observer.value) return
+  observer.value.disconnect()
+})
+
 </script>
 
 <style scoped>

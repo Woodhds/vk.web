@@ -26,12 +26,12 @@
       <pre class="leading-4 whitespace-pre-wrap h-48 overflow-auto text-xs" v-html="m.text"></pre>
       <hr class="my-4" />
       <div class="flex items-center">
-        <button class="flex items-center hover:text-blue-500 transition duration-200" @click="like(m.ownerId, m.id)">
+        <button class="flex items-center hover:text-blue-500 transition duration-200 focus:outline-none" @click="like(m.ownerId, m.id)">
           <carbon-thumbs-up class="mr-2" />
           {{ m.likesCount }}
         </button>
         <button
-          class="flex items-center ml-12 hover:text-blue-500 transition duration-200"
+          class="flex items-center ml-12 hover:text-blue-500 transition duration-200 focus:outline-none"
           :class="{ 'text-red-500': m.userReposted }"
           @click="repost(m.ownerId, m.id)"
         >
@@ -67,6 +67,7 @@ const like = (ownerId: number, id: number) => {
 }
 
 const repost = (ownerId: number, id: number) => {
+  store.dispatch(`messages/${ActionTypes.repost}`, { ownerId, id })
 }
 
 </script>

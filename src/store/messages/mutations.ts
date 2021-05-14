@@ -4,7 +4,8 @@ import { VkMessage } from '~/services/types'
 
 export enum MutationTypes {
   SET_MESSAGES = 'SET_MESSAGES',
-  SET_LOADING = 'SET_LOADING'
+  SET_LOADING = 'SET_LOADING',
+  SET_REPOSTED = 'SET_REPOSTED'
 }
 
 const mutations = {
@@ -13,6 +14,9 @@ const mutations = {
   },
   [MutationTypes.SET_LOADING](state, loading: boolean) {
     state.isLoading = loading
+  },
+  [MutationTypes.SET_REPOSTED](state, message: VkMessage) {
+    message.userReposted = true
   },
 } as MutationTree<MessagesState>
 
