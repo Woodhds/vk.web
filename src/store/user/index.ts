@@ -5,7 +5,8 @@ import mutations from './mutations'
 import { UserState } from '~/store/user/types'
 import { RootState } from '~/store/types'
 
-const state = () => ({} as UserState)
+const state = () => ({
+} as UserState)
 
 const user = {
   namespaced: true,

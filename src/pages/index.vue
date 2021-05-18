@@ -5,10 +5,10 @@
     <input
       id="search"
       v-model="search"
-      class="border border-blue-500 focus:outline-none focus:ring transition-all p-1 w-1/3 mb-2"
+      class="border border-blue-500 focus:outline-none focus:ring transition-all p-1 sm:w-1/2 md:w-1/3 mb-2"
       autocomplete="off"
     />
-    <button type="submit" class="p-2 w-1/2 sm:w-1/ md:w-1/6 btn">
+    <button type="submit" class="p-2 w-1/2 md:w-1/6 btn">
       {{ t('send') }}
     </button>
   </form>

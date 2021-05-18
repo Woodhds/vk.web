@@ -13,3 +13,9 @@ export interface VkMessage {
   messageCategoryPredict: string | null
   userReposted: boolean
 }
+
+export interface VkUser {
+  id: number
+  name: string
+  avatar: string
+}
