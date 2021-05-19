@@ -1,15 +1,9 @@
-import { ApiClient } from './apiClient'
+import ApiClient from './apiClient'
 import { VkMessage } from './types'
 
 class MessageService {
-  private client: ApiClient
-
-  constructor() {
-    this.client = new ApiClient()
-  }
-
   async getMessages(search = '') {
-    return await this.client.getAsync<VkMessage[]>('/messages', { search })
+    return await ApiClient.getAsync<VkMessage[]>('/messages', { params: { search } })
   }
 }
 

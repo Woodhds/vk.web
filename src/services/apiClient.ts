@@ -1,17 +1,15 @@
-export class ApiClient {
-  async getAsync<T = unknown>(url: string, params: Record<string, string> = {}): Promise<T | null> {
-    const requestUrl = new URLSearchParams(params).toString()
-    const response = await fetch(import.meta.env.VITE_API_BASE_URL + url + (requestUrl ? `?${requestUrl}` : ''), {
-      headers: {
-        'access-control-allow-origin': '*',
-        'access-control-allow-method': '*',
-        'Access-Control-Allow-Headers': '*',
-      },
-      redirect: 'follow',
-    })
-    if (response.ok)
-      return (await response.json()) as T
+import axios, { AxiosRequestConfig } from 'axios'
 
-    return null
+const client = axios.create({ baseURL: import.meta.env.VITE_API_BASE_URL })
+
+class ApiClient {
+  async getAsync<T>(url: string, config: AxiosRequestConfig | undefined = undefined) {
+    return (await client.get<T>(url, config)).data
+  }
+
+  async postAsync<T>(url: string, data?: unknown, config: AxiosRequestConfig | undefined = undefined) {
+    return (await client.post<T>(url, data, config)).data
   }
 }
+
+export default new ApiClient()

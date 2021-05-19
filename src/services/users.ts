@@ -1,15 +1,13 @@
-import { ApiClient } from './apiClient'
+import apiClient from './apiClient'
 import { VkUser } from './types'
 
 class UsersService {
-  private apiClient = new ApiClient()
-
   getUsers() {
-    return this.apiClient.getAsync<VkUser>('/users')
+    return apiClient.getAsync<VkUser>('/users')
   }
 
   authorize() {
-    return this.apiClient.getAsync('/authorize')
+    return apiClient.postAsync('/authorize')
   }
 }
 
