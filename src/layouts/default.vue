@@ -9,9 +9,9 @@
           {{ t('users') }}
         </router-link>
         <div class="flex-1"></div>
-        <button @click="authorize">
+        <a target="_blank" :href="href">
           Войти
-        </button>
+        </a>
       </div>
     </header>
     <main class="container mx-auto mt-12 h-full p-2">
@@ -21,12 +21,10 @@
 </template>
 
 <script lang="ts" setup>
+import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import UserService from '~/services/users'
 
 const { t } = useI18n()
 
-const authorize = () => {
-  return UserService.authorize()
-}
+const href = ref(`https://oauth.vk.com/authorize?client_id=${import.meta.env.VITE_CLIENT_ID}&display=page&scope=11111111&response_type=token`)
 </script>

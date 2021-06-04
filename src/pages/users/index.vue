@@ -4,6 +4,9 @@
       <img class="h-12 w-12 mr-4 rounded-full" :src="u.avatar" :title="u.name" />
       <a :href="`https://vk.com/id${u.id}`" target="_blank">{{ u.name }}</a>
     </div>
+    <router-link tag="button" to="/users/add" class="bg-blue-500 text-white rounded w-1/5 text-center py-1 hover:bg-blue-700 cursor-pointer">
+      Добавить
+    </router-link>
   </div>
 </template>
 

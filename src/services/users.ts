@@ -6,8 +6,8 @@ class UsersService {
     return apiClient.getAsync<VkUser>('/users')
   }
 
-  authorize() {
-    return apiClient.postAsync('/authorize')
+  search(query: string) {
+    return apiClient.getAsync<VkUser[]>('/users/search', { params: { q: query } })
   }
 }
 
