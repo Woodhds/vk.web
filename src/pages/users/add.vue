@@ -11,7 +11,10 @@
   <div class="flex flex-col gap-3">
     <div v-for="user in users" :key="user.id" class="flex flex-row gap-x-3 items-center gep-y-3">
       <div class="h-12 w-12 rounded-full bg-center bg-no-repeat bg-cover" :style="{ background: `url(${user.avatar})` }"></div>
-      <div>{{ user.name }}</div>
+      <a :href="`https://vk.com/id${user.id}`" target="_blank" class="w-1/5">{{ user.name }}</a>
+      <button class="btn" @click="add(user)">
+        <carbon-add />
+      </button>
     </div>
   </div>
 </template>
@@ -20,11 +23,18 @@
 import { ref } from 'vue'
 import UsersService from '../../services/users'
 import type { VkUser } from '~/services/types'
+import { useStore } from '~/store'
+import { ActionTypes } from '~/store/user/actions'
 
 const search = ref('')
 const users = ref<VkUser[]>([])
+const store = useStore()
 
 const makeSearch = async() => {
   users.value = await UsersService.search(search.value)
+}
+
+const add = async(user: VkUser) => {
+  store.dispatch(`user/${ActionTypes.add}`, user)
 }
 </script>
