@@ -15,8 +15,8 @@ const mutations = {
   [MutationTypes.SET_LOADING](state, loading: boolean) {
     state.isLoading = loading
   },
-  [MutationTypes.SET_REPOSTED](state, message: VkMessage) {
-    message.userReposted = true
+  [MutationTypes.SET_REPOSTED](_state, message: VkMessage[]) {
+    message.forEach(x => x.userReposted = true)
   },
 } as MutationTree<MessagesState>
 

@@ -20,10 +20,9 @@ const actions = {
       commit(MutationTypes.SET_LOADING, false)
     }
   },
-  async [ActionTypes.repost]({ commit, state }: ActionContext<MessagesState, RootState>, { ownerId, id }: {ownerId: number; id: number}) {
-    const message = state.messages.find(x => x.id === id && ownerId === x.ownerId)
-    if (message)
-      commit(MutationTypes.SET_REPOSTED, message)
+  async [ActionTypes.repost]({ commit, state }: ActionContext<MessagesState, RootState>, reposts: {ownerId: number; id: number}[]) {
+    await messageService.repost(reposts.map(f => ({ owner_Id: f.ownerId, id: f.id })))
+    commit(MutationTypes.SET_REPOSTED, state.messages.filter(f => reposts.some(a => a.id === f.id && a.ownerId === f.ownerId)))
   },
 } as ActionTree<MessagesState, RootState>
 

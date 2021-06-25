@@ -12,6 +12,9 @@
       {{ t('send') }}
     </button>
   </form>
+  <button v-if="selected" class="btn" @click="repostAll">
+    Репост всех
+  </button>
   <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 py-6 relative min-h-64" :class="{'overflow-hidden': isLoading}">
     <div v-for="m in messages" :key="`${m.ownerId}_${m.id}`" class="overflow-auto border p-4 rounded">
       <a
@@ -22,6 +25,7 @@
       >
         {{ m.owner ? m.owner : 'Пост' }}
       </a>
+      <toggle v-if="!m.userReposted" v-model:value="m.isSelected" />
       <card-image :src="m.images" />
       <pre class="leading-4 whitespace-pre-wrap h-48 overflow-auto text-xs" v-html="m.text"></pre>
       <hr class="my-4" />
@@ -40,7 +44,7 @@
         </button>
       </div>
     </div>
-    <Loading v-if="isLoading" class="text-blue-500" />
+    <Loading v-if="isLoading" class="text-blue-500 h-full" />
   </div>
 </template>
 
@@ -50,6 +54,7 @@ import { useI18n } from 'vue-i18n'
 
 import { useStore } from '~/store'
 import { ActionTypes } from '~/store/messages/actions'
+import Toggle from '~/components/Toggle.vue'
 
 const { t } = useI18n()
 const store = useStore()
@@ -63,11 +68,17 @@ const onSubmit = async(e: Event) => {
   store.dispatch(`messages/${ActionTypes.getMessages}`, search.value)
 }
 
+const selected = computed(() => messages.value ? messages.value.some(f => f.isSelected) : false)
+
 const like = (ownerId: number, id: number) => {
 }
 
 const repost = (ownerId: number, id: number) => {
-  store.dispatch(`messages/${ActionTypes.repost}`, { ownerId, id })
+  store.dispatch(`messages/${ActionTypes.repost}`, [{ ownerId, id }])
+}
+
+const repostAll = () => {
+  store.dispatch(`messages/${ActionTypes.repost}`, messages.value.filter(a => a.isSelected).map(q => ({ ownerId: q.ownerId, id: q.id })))
 }
 
 </script>
