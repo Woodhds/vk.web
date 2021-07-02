@@ -30,7 +30,7 @@
       <pre class="leading-4 whitespace-pre-wrap h-48 overflow-auto text-xs" v-html="m.text"></pre>
       <hr class="my-4" />
       <div class="flex items-center">
-        <button class="flex items-center hover:text-blue-500 transition duration-200 focus:outline-none" @click="like(m.ownerId, m.id)">
+        <button class="flex items-center hover:text-blue-500 transition duration-200 focus:outline-none" @click="like(m.ownerId, m.id, m.text)">
           <carbon-thumbs-up class="mr-2" />
           {{ m.likesCount }}
         </button>
@@ -51,10 +51,9 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-
+import messageService from '~/services/messages'
 import { useStore } from '~/store'
 import { ActionTypes } from '~/store/messages/actions'
-import Toggle from '~/components/Toggle.vue'
 
 const { t } = useI18n()
 const store = useStore()
@@ -70,7 +69,8 @@ const onSubmit = async(e: Event) => {
 
 const selected = computed(() => messages.value ? messages.value.some(f => f.isSelected) : false)
 
-const like = (ownerId: number, id: number) => {
+const like = async(ownerId: number, id: number, text: string) => {
+  await messageService.save(ownerId, id, { category: 'r', text })
 }
 
 const repost = (ownerId: number, id: number) => {
