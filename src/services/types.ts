@@ -19,3 +19,9 @@ export interface VkUser {
   name: string
   avatar: string
 }
+
+export interface Category {
+  id: number
+  title: string
+  color: string
+}

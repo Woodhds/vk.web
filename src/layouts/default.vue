@@ -9,7 +9,7 @@
           {{ t('users') }}
         </router-link>
         <div class="flex-1"></div>
-        <a target="_blank" :href="href">
+        <a class="text-white hover:text-gray-200 transition-all" target="_blank" :href="href">
           Войти
         </a>
       </div>

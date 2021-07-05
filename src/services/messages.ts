@@ -10,8 +10,8 @@ class MessageService {
     return await ApiClient.postAsync('/repost', messages)
   }
 
-  async save(ownerId: number, id: number, payload: { category: string; text: string }) {
-    return await ApiClient.postAsync(`messages/${ownerId}/${id}`, { ...payload, ...{ category: 'Деньги' } })
+  async save(ownerId: number, id: number, category: string) {
+    return await ApiClient.postAsync(`messages/${ownerId}/${id}`, { category })
   }
 }
 
