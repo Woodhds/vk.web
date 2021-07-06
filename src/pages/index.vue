@@ -43,11 +43,19 @@
           {{ m.likesCount }}
         </button>
         <div class="flex-1"></div>
-        <select class="w-32" @change="e => save(m.ownerId, m.id, e)">
-          <option v-for="category in categories" :key="category.id" :value="category.title">
-            {{ category.title }}
-          </option>
-        </select>
+        <div>
+          <div class="text-sm">
+            {{ m.category }}
+          </div>
+          <select class="w-32 border px-8 text-center truncate" @change="save(m.ownerId, m.id, e)">
+            <option value="">
+              ---Нет---
+            </option>
+            <option v-for="category in categories" :key="category.id" :value="category.title" :style="{ 'background-color': `${category.color}76` }">
+              {{ category.title }}
+            </option>
+          </select>
+        </div>
       </div>
     </div>
     <Loading v-if="isLoading" class="text-blue-500 h-full" />
@@ -85,8 +93,8 @@ const selected = computed(() => messages.value ? messages.value.some(f => f.isSe
 const like = async(ownerId: number, id: number) => {
 }
 
-const save = async(ownerId: number, id: number, category: string) => {
-  await messageService.save(ownerId, id, category)
+const save = async(ownerId: number, id: number, e: any) => {
+  await messageService.save(ownerId, id, '')
 }
 
 const repost = (ownerId: number, id: number) => {

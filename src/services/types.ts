@@ -12,6 +12,7 @@ export interface VkMessage {
   messageCategoryId: number | null
   messageCategoryPredict: string | null
   userReposted: boolean
+  category: string
 }
 
 export interface VkUser {

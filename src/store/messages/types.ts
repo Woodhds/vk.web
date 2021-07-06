@@ -1,4 +1,4 @@
-import { VkMessage } from '~/services/types'
+import type { VkMessage } from '~/services/types'
 
 export interface MessagesState {
   messages: VkMessage[]
