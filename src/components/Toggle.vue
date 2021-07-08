@@ -18,9 +18,9 @@
 </template>
 
 <script lang="ts" setup>
-import { useContext } from 'vue'
+import { getCurrentInstance } from 'vue'
 
-const { emit } = useContext()
+const { emit } = getCurrentInstance()
 
 const props = defineProps({
   value: Boolean,
