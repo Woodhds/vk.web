@@ -18,7 +18,7 @@
 </template>
 
 <script lang="ts" setup>
-import { defineProps, useContext } from 'vue'
+import { useContext } from 'vue'
 
 const { emit } = useContext()
 

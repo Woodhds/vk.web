@@ -13,6 +13,7 @@ export interface VkMessage {
   messageCategoryPredict: string | null
   userReposted: boolean
   category: string
+  isAccept: boolean
 }
 
 export interface VkUser {

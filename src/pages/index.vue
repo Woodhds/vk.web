@@ -1,6 +1,5 @@
-
 <template>
-  <form class="flex flex-col" @submit="onSubmit">
+  <form class="flex flex-col" @submit.prevent="onSubmit">
     <label for="search" class="mb-2 text-xl">Поиск</label>
     <input
       id="search"
@@ -15,7 +14,9 @@
   <button v-if="selected" class="btn" @click="repostAll">
     Репост всех
   </button>
-  <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 py-6 relative min-h-64" :class="{'overflow-hidden': isLoading}">
+  <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 py-6 relative min-h-64"
+       :class="{'overflow-hidden': isLoading}"
+  >
     <div v-for="m in messages" :key="`${m.ownerId}_${m.id}`" class="overflow-auto border p-4 rounded">
       <a
         target="_blank"
@@ -25,13 +26,13 @@
       >
         {{ m.owner ? m.owner : 'Пост' }}
       </a>
-      <toggle v-if="!m.userReposted" v-model:value="m.isSelected" />
-      <card-image :src="m.images" />
+      <toggle v-if="!m.userReposted" v-model:value="m.isSelected"/>
+      <card-image :src="m.images"/>
       <pre class="leading-4 whitespace-pre-wrap h-48 overflow-auto text-xs" v-html="m.text"></pre>
-      <hr class="my-4" />
+      <hr class="my-4"/>
       <div class="flex items-center">
         <button class="flex items-center hover:text-blue-500 transition duration-200 focus:outline-none">
-          <carbon-thumbs-up class="mr-2" />
+          <carbon-thumbs-up class="mr-2"/>
           {{ m.likesCount }}
         </button>
         <button
@@ -39,26 +40,30 @@
           :class="{ 'text-red-500': m.userReposted }"
           @click="repost(m.ownerId, m.id)"
         >
-          <carbon-share class="mr-2" />
+          <carbon-share class="mr-2"/>
           {{ m.likesCount }}
         </button>
         <div class="flex-1"></div>
         <div>
-          <div class="text-sm">
+          <div v-if="!m.isAccept" class="text-sm">
             {{ m.category }}
           </div>
-          <select class="w-32 border px-8 text-center truncate" @change="save(m.ownerId, m.id, e)">
+          <select class="w-32 border text-sm focus:outline-none focus:ring" :value="m.isAccept ? m.category : ''"
+                  @change="e => save(m.ownerId, m.id, e.target.value)"
+          >
             <option value="">
-              ---Нет---
+              Нет
             </option>
-            <option v-for="category in categories" :key="category.id" :value="category.title" :style="{ 'background-color': `${category.color}76` }">
+            <option v-for="category in categories" :key="category.id" :value="category.title" class="py-2"
+                    :style="{ 'background-color': `${category.color}76` }"
+            >
               {{ category.title }}
             </option>
           </select>
         </div>
       </div>
     </div>
-    <Loading v-if="isLoading" class="text-blue-500 h-full" />
+    <Loading v-if="isLoading" class="text-blue-500 h-full"/>
   </div>
 </template>
 
@@ -83,8 +88,7 @@ onMounted(async() => {
   categories.value = await categoriesService.getCategories()
 })
 
-const onSubmit = async(e: Event) => {
-  e.preventDefault()
+const onSubmit = async() => {
   store.dispatch(`messages/${ActionTypes.getMessages}`, search.value)
 }
 
@@ -93,16 +97,22 @@ const selected = computed(() => messages.value ? messages.value.some(f => f.isSe
 const like = async(ownerId: number, id: number) => {
 }
 
-const save = async(ownerId: number, id: number, e: any) => {
-  await messageService.save(ownerId, id, '')
+const save = async(ownerId: number, id: number, e: string) => {
+  await messageService.save(ownerId, id, e)
 }
 
 const repost = (ownerId: number, id: number) => {
-  store.dispatch(`messages/${ActionTypes.repost}`, [{ ownerId, id }])
+  store.dispatch(`messages/${ActionTypes.repost}`, [{
+    ownerId,
+    id,
+  }])
 }
 
 const repostAll = () => {
-  store.dispatch(`messages/${ActionTypes.repost}`, messages.value.filter(a => a.isSelected).map(q => ({ ownerId: q.ownerId, id: q.id })))
+  store.dispatch(`messages/${ActionTypes.repost}`, messages.value.filter(a => a.isSelected).map(q => ({
+    ownerId: q.ownerId,
+    id: q.id,
+  })))
 }
 
 </script>
