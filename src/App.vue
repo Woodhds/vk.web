@@ -1,20 +1,21 @@
+<template>
+  <router-view />
+</template>
+
 <script setup lang="ts">
-import { useHead } from '@vueuse/head'
+import { useHead } from "@vueuse/head";
+import { computed, onBeforeUnmount, onMounted, ref } from "vue";
 
 // https://github.com/vueuse/head
 // you can use this to manipulate the document head in any components,
 // they will be rendered correctly in the html results with vite-ssg
 useHead({
-  title: 'Vitesse',
+  title: "Vitesse",
   meta: [
     {
-      name: 'description',
-      content: 'Opinionated Vite Starter Template',
+      name: "description",
+      content: "Opinionated Vite Starter Template",
     },
   ],
-})
+});
 </script>
-
-<template>
-  <router-view />
-</template>

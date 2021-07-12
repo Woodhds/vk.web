@@ -1,5 +1,3 @@
-import ApiClient from './apiClient'
-
 const categories = [
   {
     id: 1,

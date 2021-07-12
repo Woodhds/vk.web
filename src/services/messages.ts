@@ -3,7 +3,7 @@ import { VkMessage } from './types'
 
 class MessageService {
   async getMessages(search = '') {
-    return await ApiClient.getAsync<VkMessage[]>('/messages', { params: { search } })
+    return await ApiClient.getAsync<VkMessage[] | null>('/messages', { params: { search } })
   }
 
   async repost(messages: { id: number; owner_Id: number }[]) {
