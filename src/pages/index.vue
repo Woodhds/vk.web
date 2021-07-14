@@ -19,7 +19,13 @@
       {{ t("send") }}
     </button>
   </form>
-  <button v-if="selected" class="btn" @click="repostAll">Репост всех</button>
+  <button
+    class="btn mt-2"
+    :style="{ visibility: selected ? 'visible' : 'hidden' }"
+    @click="repostAll"
+  >
+    Репост всех
+  </button>
   <div
     class="
       grid
@@ -37,11 +43,11 @@
       :key="`${m.ownerId}_${m.id}`"
       class="overflow-auto border p-4 rounded"
     >
-      <div class="flex">
+      <div class="flex items-center pb-4">
         <a
           target="_blank"
           :title="m.owner"
-          class="block flex-1 text-xl pb-4 truncate"
+          class="block flex-1 text-xl truncate"
           :href="'https://vk.com/wall' + m.ownerId + '_' + m.id"
         >
           {{ m.owner ? m.owner : "Пост" }}

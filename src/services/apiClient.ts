@@ -8,11 +8,13 @@ class ApiClient {
     url: string,
     config: AxiosRequestConfig | undefined = undefined
   ) {
-    NProgress.start();
-    const data = (await client.get<T>(url, config)).data;
-    NProgress.done();
+    try {
+      NProgress.start();
 
-    return data;
+      return (await client.get<T>(url, config)).data;
+    } finally {
+      NProgress.done();
+    }
   }
 
   async postAsync<T>(
@@ -20,11 +22,12 @@ class ApiClient {
     data?: unknown,
     config: AxiosRequestConfig | undefined = undefined
   ) {
-    NProgress.start();
-    const result = (await client.post<T>(url, data, config)).data;
-    NProgress.done();
-
-    return result;
+    try {
+      NProgress.start();
+      return (await client.post<T>(url, data, config)).data;
+    } finally {
+      NProgress.done();
+    }
   }
 }
 

@@ -4,7 +4,6 @@
 
 <script setup lang="ts">
 import { useHead } from "@vueuse/head";
-import { computed, onBeforeUnmount, onMounted, ref } from "vue";
 
 // https://github.com/vueuse/head
 // you can use this to manipulate the document head in any components,

@@ -22,7 +22,6 @@
       <div class="flex-1"></div>
     </div>
   </header>
-  <nprogress-container></nprogress-container>
   <main class="container mx-auto pt-12 p-2">
     <router-view />
   </main>
