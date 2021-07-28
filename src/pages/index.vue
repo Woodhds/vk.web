@@ -71,6 +71,7 @@
             duration-200
             focus:outline-none
           "
+          @click="like"
         >
           <carbon-thumbs-up class="mr-2" />
           {{ m.likesCount }}
@@ -89,7 +90,7 @@
           @click="repost(m.ownerId, m.id)"
         >
           <carbon-share class="mr-2" />
-          {{ m.likesCount }}
+          {{ m.repostsCount }}
         </button>
         <div class="flex-1"></div>
         <div>
@@ -146,7 +147,9 @@ const selected = computed(() =>
   messages.value ? messages.value.some((f) => f.isSelected) : false
 );
 
-const like = async (ownerId: number, id: number) => {};
+const like = async (ownerId: number, id: number) => {
+  await messageService.like();
+};
 
 const save = async (ownerId: number, id: number, e: string) => {
   await messageService.save(ownerId, id, e);

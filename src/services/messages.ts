@@ -13,6 +13,10 @@ class MessageService {
   async save(ownerId: number, id: number, category: string) {
     return await ApiClient.postAsync(`messages/${ownerId}/${id}`, { category })
   }
+
+  async like() {
+    return await ApiClient.postAsync('/like')
+  }
 }
 
 const messageService = new MessageService()
