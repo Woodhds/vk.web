@@ -36,7 +36,7 @@ html.dark {
 }
 
 .btn {
-    @apply px-4 py-1 rounded inline-block
+    @apply px-4 py-1 rounded inline-block focus:outline-none
     bg-blue-500 text-white cursor-pointer
     hover:bg-blue-600 transition duration-200
     disabled:cursor-default disabled:bg-gray-600 disabled:opacity-50;

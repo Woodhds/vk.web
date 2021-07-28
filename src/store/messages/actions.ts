@@ -5,7 +5,7 @@ import { MutationTypes } from "./mutations";
 import messageService from "~/services/messages";
 
 export enum ActionTypes {
-  getMessages = "getMesages",
+  getMessages = "getMessages",
   repost = "repost",
 }
 
