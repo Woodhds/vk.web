@@ -17,6 +17,10 @@ class MessageService {
   async like() {
     return await ApiClient.postAsync('/like')
   }
+
+  async grab() {
+    return await ApiClient.getAsync("/grab")
+  }
 }
 
 const messageService = new MessageService()

@@ -20,6 +20,7 @@
         {{ t('users') }}
       </router-link>
       <div class="flex-1"></div>
+      <button class="btn" @click="grab">Получить</button>
     </div>
   </header>
   <main class="container mx-auto pt-12 p-2">
@@ -62,6 +63,7 @@ import { useI18n } from 'vue-i18n'
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import { useStore } from '~/store'
 import { ActionTypes } from '~/store/notifications/actions'
+import messageService from '~/services/messages'
 
 enum NotificationMessageType {
   Success = 0,
@@ -106,6 +108,10 @@ onBeforeUnmount(() => {
 
 const scrollTop = () => {
   window.scrollTo(0, 0)
+}
+
+const grab = async () => {
+  await messageService.grab()
 }
 
 const invisible = computed(() => scroll.value <= 200)
