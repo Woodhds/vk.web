@@ -8,6 +8,7 @@ RUN yarn run build
 
 # этап production (production-stage)
 FROM nginx:stable-alpine as production-stage
-COPY --from=build-stage /app/dist /usr/share/nginx/html
-EXPOSE 80
+COPY --from=build-stage /app/dist /app
+COPY /deploy/nginx.conf /etc/nginx/
+ENV VITE_API_BASE_URL=""
 CMD ["nginx", "-g", "daemon off;"]
