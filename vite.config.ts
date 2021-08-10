@@ -115,4 +115,15 @@ export default defineConfig({
       'vue-demi',
     ],
   },
+  server: {
+    port: 4000,
+    host: '0.0.0.0',
+    proxy: {
+      '/api/': {
+        target: 'http://localhost:4222/',
+        changeOrigin: true,
+        secure: false
+      }
+    }
+  }
 })

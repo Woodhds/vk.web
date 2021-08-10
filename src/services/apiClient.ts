@@ -1,7 +1,10 @@
 import axios, { AxiosRequestConfig } from "axios";
 import NProgress from "nprogress";
 
-const client = axios.create({ baseURL: import.meta.env.VITE_API_BASE_URL });
+const client = axios.create({
+  timeout: 60000,
+  baseURL: '/api'
+});
 
 class ApiClient {
   async getAsync<T>(

@@ -89,7 +89,7 @@ onMounted(() => {
   document.addEventListener('scroll', handleScroll)
 
   eventSource.value = new EventSource(
-    `${import.meta.env.VITE_API_BASE_URL}/notifications`,
+    `api/notifications`,
   )
 
   eventSource.value.onmessage = async(e: MessageEvent) => {
