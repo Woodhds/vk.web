@@ -7,8 +7,8 @@ COPY . .
 RUN yarn run build
 
 # этап production (production-stage)
-FROM nginx:stable-alpine as production-stage
+FROM nginx:1.21 as production-stage
 COPY --from=build-stage /app/dist /app
-EXPOSE 80
+COPY deploy/nginx.conf /etc/nginx/nginx.conf
 ENV VITE_API_BASE_URL=""
-CMD ["nginx", "-g", "daemon off;"]
+CMD /bin/bash -c "envsubst '\$PORT' < /etc/nginx/nginx.conf > /etc/nginx/nginx.conf" && nginx -g 'daemon off;'
