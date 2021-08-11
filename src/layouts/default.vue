@@ -89,7 +89,7 @@ onMounted(() => {
   document.addEventListener('scroll', handleScroll)
 
   eventSource.value = new EventSource(
-    `api/notifications`,
+    `${import.meta.env.VITE_API_BASE_URL ?? ""}/notifications`,
   )
 
   eventSource.value.onmessage = async(e: MessageEvent) => {
@@ -110,7 +110,7 @@ const scrollTop = () => {
   window.scrollTo(0, 0)
 }
 
-const grab = async () => {
+const grab = async() => {
   await messageService.grab()
 }
 

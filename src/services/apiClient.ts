@@ -3,7 +3,7 @@ import NProgress from "nprogress";
 
 const client = axios.create({
   timeout: 60000,
-  baseURL: '/api'
+  baseURL: `${import.meta.env.VITE_API_BASE_URL ?? ""}`
 });
 
 class ApiClient {
