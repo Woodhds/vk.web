@@ -13,9 +13,13 @@ const mutations = {
   },
   [MutationTypes.SET_REPOSTED](_state, message: VkMessage[]) {
     const ids = message.map(a => `${a.id}_${a.ownerId}`)
-    _state.messages.filter(a => ids.includes(`${a.id}_${a.ownerId}`)).forEach(x => {
-      x.userReposted = true
-    })
+    for (let i = 0; i < _state.messages.length; i++) {
+      for (let j = 0; j < ids.length; j++) {
+        if (`${_state.messages[i].id}_${_state.messages[i].ownerId}` === ids[j]) {
+          _state.messages[i].userReposted = true
+        }
+      }
+    }
   },
 } as MutationTree<MessagesState>
 
