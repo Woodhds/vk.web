@@ -52,7 +52,6 @@
         >
           {{ m.owner ? m.owner : "Пост" }}
         </a>
-        <toggle v-if="!m.userReposted" v-model:value="m.isSelected" />
       </div>
 
       <card-image :src="m.images" />
