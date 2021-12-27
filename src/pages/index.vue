@@ -79,7 +79,7 @@
           class="
             flex
             items-center
-            ml-12
+            ml-4
             hover:text-blue-500
             transition
             duration-200
@@ -93,15 +93,14 @@
         </button>
         <div class="flex-1"></div>
         <div>
-          <div v-if="!m.isAccept" class="text-sm">
-            {{ m.category }}
-          </div>
           <select
             class="w-32 border text-sm focus:outline-none focus:ring"
             :value="m.isAccept ? m.category : ''"
             @change="(e) => save(m.ownerId, m.id, e.target.value)"
           >
-            <option value="">Нет</option>
+            <option value="" disabled>
+              {{ m.isAccept ? "" : m.category }}&nbsp;&nbsp;&bull;
+            </option>
             <option
               v-for="category in categories"
               :key="category.id"
