@@ -133,6 +133,8 @@ export default defineConfig({
 
     // https://github.com/intlify/vite-plugin-vue-i18n
     VueI18n({
+      runtimeOnly: true,
+      compositionOnly: true,
       include: [path.resolve(__dirname, 'locales/**')],
     }),
   ],
@@ -153,6 +155,9 @@ export default defineConfig({
     ],
   },
   server: {
+    fs: {
+      strict: true
+    },
     port: 4000,
     host: '0.0.0.0',
     proxy: {
