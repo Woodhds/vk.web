@@ -1,5 +1,5 @@
 import ApiClient from './apiClient'
-import { VkMessage } from './types'
+import type { VkMessage } from './types'
 
 class MessageService {
   async getMessages(search = '') {
