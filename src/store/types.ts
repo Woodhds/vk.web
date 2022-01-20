@@ -1,6 +1,19 @@
-import { MessagesState } from './messages/types'
-import { UserState } from './user/types'
-import { NotificationState } from '~/store/notifications/types'
+import type {VkMessage, VkUser} from "~/services/types";
+
+export interface UserState {
+  user: string
+  users?: VkUser[]
+}
+
+export interface NotificationState {
+  success: boolean;
+  error: boolean;
+  message: string;
+}
+
+export interface MessagesState {
+  messages: VkMessage[]
+}
 
 export interface RootState {
   messages: MessagesState

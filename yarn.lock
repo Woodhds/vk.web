@@ -1437,12 +1437,7 @@
     "@vue/compiler-dom" "3.2.26"
     "@vue/shared" "3.2.26"
 
-"@vue/devtools-api@^6.0.0-beta.11":
-  version "6.0.0-beta.15"
-  resolved "https://registry.yarnpkg.com/@vue/devtools-api/-/devtools-api-6.0.0-beta.15.tgz#ad7cb384e062f165bcf9c83732125bffbc2ad83d"
-  integrity sha512-quBx4Jjpexo6KDiNUGFr/zF/2A4srKM9S9v2uHgMXSU//hjgq1eGzqkIFql8T9gfX5ZaVOUzYBP3jIdIR3PKIA==
-
-"@vue/devtools-api@^6.0.0-beta.18":
+"@vue/devtools-api@^6.0.0-beta.18", "@vue/devtools-api@^6.0.0-beta.21":
   version "6.0.0-beta.21.1"
   resolved "https://registry.yarnpkg.com/@vue/devtools-api/-/devtools-api-6.0.0-beta.21.1.tgz#f1410f53c42aa67fa3b01ca7bdba891f69d7bc97"
   integrity sha512-FqC4s3pm35qGVeXRGOjTsRzlkJjrBLriDS9YXbflHLsfA9FrcKzIyWnLXoNm+/7930E8rRakXuAc2QkC50swAw==
@@ -4524,6 +4519,14 @@ picomatch@^2.2.1, picomatch@^2.2.2, picomatch@^2.2.3:
   resolved "https://registry.yarnpkg.com/picomatch/-/picomatch-2.2.3.tgz#465547f359ccc206d3c48e46a1bcb89bf7ee619d"
   integrity sha512-KpELjfwcCDUb9PeigTs2mBJzXUPzAuP2oPcA989He8Rte0+YUAjw1JVedDhuTKPkHjSYzMN3npC9luThGYEKdg==
 
+pinia@^2.0.9:
+  version "2.0.9"
+  resolved "https://registry.yarnpkg.com/pinia/-/pinia-2.0.9.tgz#7d7767c46e3810fff046c289453242a68fc23492"
+  integrity sha512-iuYdxLJKQ07YPyOHYH05wNG9eKWqkP/4y4GE8+RqEYtz5fwHgPA5kr6zQbg/DoEJGnR2XCm1w1vdt6ppzL9ATg==
+  dependencies:
+    "@vue/devtools-api" "^6.0.0-beta.21"
+    vue-demi "*"
+
 pkg-dir@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/pkg-dir/-/pkg-dir-2.0.0.tgz#f6d5d1109e19d63edf428e0bd57e12777615334b"
@@ -5727,13 +5730,6 @@ vue@^3.2.26:
     "@vue/runtime-dom" "3.2.26"
     "@vue/server-renderer" "3.2.26"
     "@vue/shared" "3.2.26"
-
-vuex@^4.0.2:
-  version "4.0.2"
-  resolved "https://registry.yarnpkg.com/vuex/-/vuex-4.0.2.tgz#f896dbd5bf2a0e963f00c67e9b610de749ccacc9"
-  integrity sha512-M6r8uxELjZIK8kTKDGgZTYX/ahzblnzC4isU1tpmEuOIIKmV+TRdc+H4s8ds2NuZ7wpUTdGRzJRtoj+lI+pc0Q==
-  dependencies:
-    "@vue/devtools-api" "^6.0.0-beta.11"
 
 w3c-hr-time@^1.0.2:
   version "1.0.2"

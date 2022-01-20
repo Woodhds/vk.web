@@ -26,19 +26,18 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import UsersService from '../../services/users'
+import {userUserStore} from "~/store/user";
 import type { VkUser } from '~/services/types'
-import { useStore } from '~/store'
-import { ActionTypes } from '~/store/user/actions'
 
 const search = ref('')
 const users = ref<VkUser[]>([])
-const store = useStore()
+const store = userUserStore()
 
 const makeSearch = async() => {
   users.value = await UsersService.search(search.value)
 }
 
 const add = async(user: VkUser) => {
-  await store.dispatch(`user/${ActionTypes.add}`, user)
+  await store.add(user)
 }
 </script>

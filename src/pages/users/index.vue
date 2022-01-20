@@ -33,13 +33,12 @@
 
 <script lang="ts" setup>
 import { computed, onMounted } from "vue";
-import { useStore } from "~/store";
-import { ActionTypes } from "~/store/user/actions";
+import {userUserStore} from "~/store/user";
 
-const store = useStore();
-const users = computed(() => store.state.user.users ?? []);
+const store = userUserStore();
+const users = computed(() => store.users ?? []);
 
 onMounted(async () => {
-  await store.dispatch(`user/${ActionTypes.getUsers}`);
+  await store.getUsers();
 });
 </script>

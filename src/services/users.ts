@@ -1,9 +1,9 @@
 import apiClient from './apiClient'
-import { VkUser } from './types'
+import type { VkUser } from './types'
 
 class UsersService {
   getUsers() {
-    return apiClient.getAsync<VkUser>('/users')
+    return apiClient.getAsync<VkUser[]>('/users')
   }
 
   search(query: string) {

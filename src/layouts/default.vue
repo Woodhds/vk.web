@@ -59,11 +59,10 @@
 </template>
 
 <script lang="ts" setup>
-import { useI18n } from 'vue-i18n'
-import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
-import { useStore } from '~/store'
-import { ActionTypes } from '~/store/notifications/actions'
+import {useI18n} from 'vue-i18n'
+import {computed, onBeforeUnmount, onMounted, ref} from 'vue'
 import messageService from '~/services/messages'
+import {useNotificationStore} from "~/store/notifications";
 
 enum NotificationMessageType {
   Success = 0,
@@ -76,8 +75,8 @@ type NotificationMessage = {
   message: string
 }
 
-const store = useStore()
-const { t } = useI18n()
+const store = useNotificationStore()
+const {t} = useI18n()
 const scroll = ref<number>(0)
 const eventSource = ref<EventSource | null>(null)
 
@@ -92,10 +91,10 @@ onMounted(() => {
     `${import.meta.env.VITE_API_BASE_URL ?? ""}/notifications`,
   )
 
-  eventSource.value.onmessage = async(e: MessageEvent) => {
+  eventSource.value.onmessage = async (e: MessageEvent) => {
     const message: NotificationMessage = JSON.parse(e.data)
     if (message.messageType === NotificationMessageType.Success) {
-      await store.dispatch(`notifications/${ActionTypes.Success}`, message.message)
+      await store.success(message.message);
     }
   }
 })
@@ -110,11 +109,11 @@ const scrollTop = () => {
   window.scrollTo(0, 0)
 }
 
-const grab = async() => {
+const grab = async () => {
   await messageService.grab()
 }
 
 const invisible = computed(() => scroll.value <= 200)
-const successMessage = computed(() => store.state.notifications.success)
-const message = computed(() => store.state.notifications.message)
+const successMessage = computed(() => store.$state.success)
+const message = computed(() => store.message)
 </script>

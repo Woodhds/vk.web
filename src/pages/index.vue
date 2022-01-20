@@ -19,13 +19,6 @@
       {{ t("send") }}
     </button>
   </form>
-  <button
-    class="btn mt-2"
-    :style="{ visibility: selected ? 'visible' : 'hidden' }"
-    @click="repostAll"
-  >
-    Репост всех
-  </button>
   <div
     class="
       grid
@@ -43,26 +36,12 @@
       :key="`${m.ownerId}_${m.id}`"
       class="overflow-auto border p-4 rounded"
     >
-      <div class="flex items-center pb-4">
-        <a
-          target="_blank"
-          :title="m.owner"
-          class="block flex-1 text-xl truncate"
-          :href="'https://vk.com/wall' + m.ownerId + '_' + m.id"
-        >
-          {{ m.owner ? m.owner : "Пост" }}
-        </a>
-      </div>
-
-      <card-image :src="m.images" />
-      <pre
-        class="leading-4 whitespace-pre-wrap h-48 overflow-auto text-xs"
-        v-html="m.text"
-      ></pre>
-      <hr class="my-4" />
-      <div class="flex items-center">
-        <button
-          class="
+      <card :message="m">
+        <template #bottom="{message}">
+          <hr class="my-4"/>
+          <div class="flex items-center">
+            <button
+              class="
             flex
             items-center
             hover:text-blue-500
@@ -70,13 +49,13 @@
             duration-200
             focus:outline-none
           "
-          @click="like"
-        >
-          <carbon-thumbs-up class="mr-2" />
-          {{ m.likesCount }}
-        </button>
-        <button
-          class="
+              @click="like"
+            >
+              <carbon-thumbs-up class="mr-2"/>
+              {{ message.likesCount }}
+            </button>
+            <button
+              class="
             flex
             items-center
             ml-4
@@ -85,51 +64,53 @@
             duration-200
             focus:outline-none
           "
-          :class="{ 'text-red-500': m.userReposted }"
-          @click="repost(m.ownerId, m.id)"
-        >
-          <carbon-share class="mr-2" />
-          {{ m.repostsCount }}
-        </button>
-        <div class="flex-1"></div>
-        <div>
-          <select
-            class="w-32 border text-sm focus:outline-none focus:ring"
-            :value="m.isAccept ? m.category : ''"
-            @change="(e) => save(m.ownerId, m.id, e.target.value)"
-          >
-            <option value="" disabled>
-              {{ m.isAccept ? "" : m.category }}&nbsp;&nbsp;&bull;
-            </option>
-            <option
-              v-for="category in categories"
-              :key="category.id"
-              :value="category.title"
-              class="py-2"
-              :style="{ 'background-color': `${category.color}76` }"
+              :class="{ 'text-red-500': message.userReposted }"
+              @click="repost(message.ownerId, message.id)"
             >
-              {{ category.title }}
-            </option>
-          </select>
-        </div>
-      </div>
+              <carbon-share class="mr-2"/>
+              {{ message.repostsCount }}
+            </button>
+            <div class="flex-1"></div>
+            <div>
+              <select
+                class="w-32 border text-sm focus:outline-none focus:ring"
+                :value="message.isAccept ? message.category : ''"
+                @change="(e) => save(message.ownerId, message.id, e.target.value)"
+              >
+                <option value="" disabled>
+                  {{ message.isAccept ? "" : message.category }}&nbsp;&nbsp;&bull;
+                </option>
+                <option
+                  v-for="category in categories"
+                  :key="category.id"
+                  :value="category.title"
+                  class="py-2"
+                  :style="{ 'background-color': `${category.color}76` }"
+                >
+                  {{ category.title }}
+                </option>
+              </select>
+            </div>
+          </div>
+        </template>
+      </card>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref } from "vue";
-import { useI18n } from "vue-i18n";
+import {computed, onMounted, ref} from "vue";
+import {useI18n} from "vue-i18n";
+import Card from "~/components/Card.vue";
 import categoriesService from "~/services/categories";
-import { useStore } from "~/store";
-import { ActionTypes } from "~/store/messages/actions";
-import type { Category } from "~/services/types";
+import {useMessagesStore} from "~/store/messages";
+import type {Category} from "~/services/types";
 import messageService from "~/services/messages";
 
-const { t } = useI18n();
-const store = useStore();
+const {t} = useI18n();
+const store = useMessagesStore();
 
-const messages = computed(() => store.state.messages.messages);
+const messages = computed(() => store.messages);
 const search = ref("");
 const categories = ref([] as Category[]);
 
@@ -138,12 +119,8 @@ onMounted(async () => {
 });
 
 const onSubmit = async () => {
-  store.dispatch(`messages/${ActionTypes.getMessages}`, search.value);
+  await store.getMessages(search.value);
 };
-
-const selected = computed(() =>
-  messages.value ? messages.value.some((f) => f.isSelected) : false
-);
 
 const like = async (ownerId: number, id: number) => {
   await messageService.like();
@@ -153,24 +130,10 @@ const save = async (ownerId: number, id: number, e: string) => {
   await messageService.save(ownerId, id, e);
 };
 
-const repost = (ownerId: number, id: number) => {
-  store.dispatch(`messages/${ActionTypes.repost}`, [
-    {
-      ownerId,
-      id,
-    },
-  ]);
-};
-
-const repostAll = () => {
-  store.dispatch(
-    `messages/${ActionTypes.repost}`,
-    messages.value
-      .filter((a) => a.isSelected)
-      .map((q) => ({
-        ownerId: q.ownerId,
-        id: q.id,
-      }))
-  );
+const repost = async (ownerId: number, id: number) => {
+  await store.repost([{
+    ownerId,
+    id,
+  }])
 };
 </script>
