@@ -27,3 +27,7 @@ export interface Category {
   title: string
   color: string
 }
+
+export interface PredictResult {
+  [key: string]: number;
+}

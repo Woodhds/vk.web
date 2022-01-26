@@ -1,4 +1,5 @@
 import ApiClient from './apiClient'
+import {PredictResult} from "./types";
 import type { VkMessage } from './types'
 
 class MessageService {
@@ -20,6 +21,10 @@ class MessageService {
 
   async grab() {
     return await ApiClient.getAsync("/grab")
+  }
+
+  async predict(ownerId: number, id: number, text: string) {
+    return await ApiClient.postAsync<PredictResult>(`predict/${ownerId}/${id}`, text);
   }
 }
 

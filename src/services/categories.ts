@@ -90,12 +90,6 @@ const categories = [
     hidden: false,
   },
   {
-    id: 23,
-    title: 'Посуда',
-    color: '#a86466',
-    hidden: false,
-  },
-  {
     id: 24,
     title: 'Для животных',
     color: '#35f3fd',

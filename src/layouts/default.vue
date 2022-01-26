@@ -19,6 +19,17 @@
       >
         {{ t('users') }}
       </router-link>
+      <router-link
+        to="/predictions"
+        class="
+          text-white
+          pl-4
+          hover:text-gray-200
+          cursor-pointer
+          transition-all
+        ">
+        Предсказать
+      </router-link>
       <div class="flex-1"></div>
       <button class="btn" @click="grab">Получить</button>
     </div>
@@ -26,8 +37,9 @@
   <main class="container mx-auto pt-12 p-2">
     <router-view/>
   </main>
-  <div class="h-32 w-64 bg-green-100 fixed -bottom-64 right-4 transition-all rounded"
-       :class="successMessage ? 'bottom-4' : '-bottom-64'"
+  <div
+    class="h-32 w-64 bg-green-100 fixed -bottom-64 right-4 transition-all rounded"
+    :class="successMessage ? 'bottom-4' : '-bottom-64'"
   >
     <div class="text-center py-2">Сообщение</div>
     <hr class="border-green-700"/>
