@@ -1,10 +1,10 @@
 import ApiClient from './apiClient'
 import {PredictResult} from "./types";
-import type { VkMessage } from './types'
+import type {VkMessage} from './types'
 
 class MessageService {
   async getMessages(search = '') {
-    return await ApiClient.getAsync<VkMessage[] | null>('/messages', { params: { search } })
+    return await ApiClient.getAsync<VkMessage[] | null>('/messages', {params: {search}})
   }
 
   async repost(messages: { id: number; owner_Id: number }[]) {
@@ -12,7 +12,7 @@ class MessageService {
   }
 
   async save(ownerId: number, id: number, category: string) {
-    return await ApiClient.postAsync(`messages/${ownerId}/${id}`, { category })
+    return await ApiClient.postAsync(`messages/${ownerId}/${id}`, {category})
   }
 
   async like() {
@@ -24,7 +24,11 @@ class MessageService {
   }
 
   async predict(ownerId: number, id: number, text: string) {
-    return await ApiClient.postAsync<PredictResult>(`predict/${ownerId}/${id}`, text);
+    return await ApiClient.postAsync<PredictResult>(`predict/${ownerId}/${id}`, text, {
+      headers: {
+        "Content-type": "application/json"
+      }
+    });
   }
 }
 
