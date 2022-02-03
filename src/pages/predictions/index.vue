@@ -39,7 +39,13 @@ const model = reactive({
 const predictions = ref<PredictResult>({})
 
 const submit = async () => {
-  predictions.value = await messageService.predict(+model.ownerId, +model.id, model.text)
+  const data = await messageService.predict(+model.ownerId, +model.id, model.text);
+  const keys = Object.keys(data).map(d => ({ key: d, value: data[d] }))
+  keys.sort((a, b) => b.value - a.value);
+  predictions.value = keys.reduce((obj, key) => {
+    obj[key.key] = data[key.key]
+    return obj;
+  }, {} as PredictResult)
 }
 
 </script>
