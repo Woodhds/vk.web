@@ -14,6 +14,7 @@ export interface VkMessage {
   userReposted: boolean
   category: string
   isAccept: boolean
+  scores: PredictResult
 }
 
 export interface VkUser {
