@@ -1,8 +1,8 @@
 import type {VkMessage, VkUser} from "~/services/types";
 
 export interface UserState {
-  user: string
-  users?: VkUser[]
+  user: string | null
+  users: VkUser[]
 }
 
 export interface NotificationState {

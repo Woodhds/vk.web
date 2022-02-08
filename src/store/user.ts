@@ -1,19 +1,22 @@
-import {defineStore} from "pinia";
-import type {VkUser} from "~/services/types";
+import { defineStore } from "pinia";
+import type { VkUser } from "~/services/types";
 import UsersService from "~/services/users";
-import type {UserState} from '~/store/types'
+import type { UserState } from "~/store/types";
 
-export const userUserStore = defineStore('user', {
-  state: (): UserState => ({} as UserState),
+let isInit = false;
+
+export const userUserStore = defineStore("user", {
+  state: (): UserState => ({ users: [], user: "" } as UserState),
   actions: {
     async getUsers() {
-      if (this.users) return
-      const users = (await UsersService.getUsers()) || []
-      this.$state.users = [...users]
+      if (isInit) return;
+      const users = (await UsersService.getUsers()) || [];
+      this.users = [...users];
+      isInit = true;
     },
     async add(user: VkUser) {
-      await UsersService.add(user)
-      this.users?.push(user)
-    }
-  }
-})
+      await UsersService.add(user);
+      this.users?.push(user);
+    },
+  },
+});

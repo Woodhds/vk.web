@@ -12,19 +12,19 @@
       />
       <a :href="`https://vk.com/id${u.id}`" target="_blank">{{ u.name }}</a>
     </div>
-    <router-link to="/users/add"
-    >
+    <router-link to="/users/add">
       <button
         class="
-        bg-blue-500
-        text-white
-        rounded
-        w-1/5
-        text-center
-        py-1
-        hover:bg-blue-700
-        cursor-pointer
-      ">
+          bg-blue-500
+          text-white
+          rounded
+          w-1/5
+          text-center
+          py-1
+          hover:bg-blue-700
+          cursor-pointer
+        "
+      >
         Добавить
       </button>
     </router-link>
@@ -32,11 +32,12 @@
 </template>
 
 <script lang="ts" setup>
-import {computed, onMounted} from "vue";
-import {userUserStore} from "~/store/user";
+import { computed, onMounted } from "vue";
+import { userUserStore } from "~/store/user";
 
 const store = userUserStore();
-const users = computed(() => store.users ?? []);
+
+const users = computed(() => [...(store.users || [])]);
 
 onMounted(async () => {
   await store.getUsers();

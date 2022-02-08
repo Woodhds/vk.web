@@ -117,7 +117,7 @@ import { useI18n } from "vue-i18n";
 import Card from "~/components/Card.vue";
 import categoriesService from "~/services/categories";
 import { useMessagesStore } from "~/store/messages";
-import type { Category, VkMessage } from "~/services/types";
+import type { Category } from "~/services/types";
 import messageService from "~/services/messages";
 
 const { t } = useI18n();
