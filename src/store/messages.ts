@@ -1,5 +1,5 @@
 import {defineStore} from "pinia";
-import messageService from "~/services/messages";
+import messageService from "~/api/messages";
 import type {MessagesState} from "~/store/types";
 
 export const useMessagesStore = defineStore('messages', {

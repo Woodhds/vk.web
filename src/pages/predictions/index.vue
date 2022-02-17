@@ -7,8 +7,9 @@
         v-model="textId"
         class="border border-blue-500 focus:outline-none focus:ring"
         :class="{
-          'mb-3': !warning
+          'mb-3': !warning,
         }"
+        autocomplete="off"
       />
       <span v-if="warning" class="text-red-500 mb-3">{{ warning }}</span>
       <pre
@@ -30,7 +31,11 @@
     </form>
     <div class="flex-row flex">
       <ul class="flex flex-row w-full justify-between flex-wrap">
-        <li v-for="(k, v) in predictions" :key="k" class="flex flex-col w-1/5 p-1">
+        <li
+          v-for="(k, v) in predictions"
+          :key="k"
+          class="flex flex-col w-1/5 p-1"
+        >
           <div>{{ v }}</div>
           <div>{{ Math.round(k * 100) }}%</div>
         </li>
@@ -40,8 +45,9 @@
 </template>
 
 <script lang="ts" setup>
-import messageService from "~/services/messages";
-import type { PredictResult } from "~/services/types";
+import messageService from "~/api/messages";
+import type { PredictResult } from "~/api/types";
+import { sort } from "~/utils/predict";
 
 const regexp = /\d+_\d+/;
 
@@ -66,11 +72,6 @@ const submit = async () => {
 
   const { predict, message } = await messageService.predict(+ownerId, +id);
   text.value = message?.text;
-  const keys = Object.keys(predict).map((d) => ({ key: d, value: predict[d] }));
-  keys.sort((a, b) => b.value - a.value);
-  predictions.value = keys.reduce((obj, key) => {
-    obj[key.key] = predict[key.key];
-    return obj;
-  }, {} as PredictResult);
+  predictions.value = sort(predict);
 };
 </script>

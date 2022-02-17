@@ -1,4 +1,4 @@
-import type {VkMessage, VkUser} from "~/services/types";
+import type {VkMessage, VkUser} from "~/api/types";
 
 export interface UserState {
   user: string | null

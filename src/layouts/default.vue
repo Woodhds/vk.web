@@ -73,7 +73,7 @@
 <script lang="ts" setup>
 import {useI18n} from 'vue-i18n'
 import {computed, onBeforeUnmount, onMounted, ref} from 'vue'
-import messageService from '~/services/messages'
+import messageService from '~/api/messages'
 import {useNotificationStore} from "~/store/notifications";
 
 enum NotificationMessageType {

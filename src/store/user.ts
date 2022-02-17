@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
-import type { VkUser } from "~/services/types";
-import UsersService from "~/services/users";
+import type { VkUser } from "~/api/types";
+import UsersService from "~/api/users";
 import type { UserState } from "~/store/types";
 
 let isInit = false;

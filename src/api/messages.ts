@@ -16,8 +16,8 @@ class MessageService {
     return await ApiClient.postAsync(`messages/${ownerId}/${id}`, { category });
   }
 
-  async like() {
-    return await ApiClient.postAsync("/like");
+  async like(ownerId: number, id: number) {
+    return await ApiClient.postAsync(`/like/${ownerId}/${id}`);
   }
 
   async grab() {

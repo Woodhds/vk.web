@@ -19,7 +19,7 @@
 </template>
 
 <script lang="ts" setup>
-import type {VkMessage} from "~/services/types";
+import type {VkMessage} from "~/api/types";
 
 defineProps({
   message: {

@@ -85,21 +85,16 @@
                   }}&nbsp;&nbsp;&bull;
                 </option>
                 <option
-                  v-for="category in categories"
+                  v-for="category in getCategories(message)"
                   :key="category.id"
                   :value="category.title"
                   class="py-2"
                 >
-                  {{ category.title
-                  }}{{
-                    message.isAccept || !message.scores
+                  {{ category.title }}
+                  {{
+                    message.isAccept || !category.score
                       ? ""
-                      : ` ${
-                          message.scores[category.title]
-                            ? Math.round(message.scores[category.title] * 100) +
-                              "%"
-                            : ""
-                        }`
+                      : ` ${Math.round(category.score * 100)}%`
                   }}
                 </option>
               </select>
@@ -115,10 +110,12 @@
 import { computed, onMounted, ref } from "vue";
 import { useI18n } from "vue-i18n";
 import Card from "~/components/Card.vue";
-import categoriesService from "~/services/categories";
+import categoriesService from "~/api/categories";
 import { useMessagesStore } from "~/store/messages";
-import type { Category } from "~/services/types";
-import messageService from "~/services/messages";
+import type { Category, VkMessage } from "~/api/types";
+import messageService from "~/api/messages";
+
+type CategoryAndScore = Category & { score: number };
 
 const { t } = useI18n();
 const store = useMessagesStore();
@@ -136,7 +133,19 @@ const onSubmit = async () => {
 };
 
 const like = async (ownerId: number, id: number) => {
-  await messageService.like();
+  await messageService.like(ownerId, id);
+};
+
+const getCategories = (message: VkMessage): CategoryAndScore[] => {
+  const cat = [...categories.value] as CategoryAndScore[];
+  cat.forEach((x) => {
+    x.score =
+      message.scores && x.title in message.scores ? message.scores[x.title] : 0;
+  });
+
+  cat.sort((x, y) => y.score - x.score);
+
+  return cat;
 };
 
 const save = async (ownerId: number, id: number, e: string) => {

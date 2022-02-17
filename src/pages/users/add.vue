@@ -30,9 +30,9 @@
 
 <script lang="ts" setup>
 import {ref} from 'vue'
-import UsersService from '../../services/users'
+import UsersService from '../../api/users'
 import {userUserStore} from "~/store/user";
-import type {VkUser} from '~/services/types'
+import type {VkUser} from '~/api/types'
 
 const search = ref('')
 const users = ref<VkUser[]>([])
