@@ -137,7 +137,7 @@ const like = async (ownerId: number, id: number) => {
 };
 
 const getCategories = (message: VkMessage): CategoryAndScore[] => {
-  const cat = [...categories.value] as CategoryAndScore[];
+  const cat = categories.value.map((x) => ({ ...x })) as CategoryAndScore[];
   cat.forEach((x) => {
     x.score =
       message.scores && x.title in message.scores ? message.scores[x.title] : 0;
