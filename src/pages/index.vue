@@ -49,7 +49,7 @@
                 duration-200
                 focus:outline-none
               "
-              @click="like"
+              @click="like(message.ownerId, message.id)"
             >
               <carbon-thumbs-up class="mr-2" />
               {{ message.likesCount }}
