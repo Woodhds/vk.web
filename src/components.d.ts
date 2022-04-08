@@ -4,12 +4,15 @@
 
 declare module 'vue' {
   export interface GlobalComponents {
+    CarbonAdd: typeof import('~icons/carbon/add')['default']
     CarbonArrowLeft: typeof import('~icons/carbon/arrow-left')['default']
     CarbonArrowRight: typeof import('~icons/carbon/arrow-right')['default']
     CarbonChevronUp: typeof import('~icons/carbon/chevron-up')['default']
     CarbonDeliveryParcel: typeof import('~icons/carbon/delivery-parcel')['default']
+    CarbonDicomOverlay: typeof import('~icons/carbon/dicom-overlay')['default']
     CarbonShare: typeof import('~icons/carbon/share')['default']
     CarbonThumbsUp: typeof import('~icons/carbon/thumbs-up')['default']
+    CarbonWarning: typeof import('~icons/carbon/warning')['default']
     Card: typeof import('./components/Card.vue')['default']
     CardImage: typeof import('./components/CardImage.vue')['default']
     README: typeof import('./components/README.md')['default']
