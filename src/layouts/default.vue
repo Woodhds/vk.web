@@ -1,3 +1,63 @@
+<script lang="ts" setup>
+import {useI18n} from 'vue-i18n'
+import {computed, onBeforeUnmount, onMounted, ref} from 'vue'
+import messageService from '~/api/messages'
+import {useNotificationStore} from "~/store/notifications";
+
+enum NotificationMessageType {
+  Success = 0,
+  Danger,
+  Warning
+}
+
+interface NotificationMessage {
+  messageType: NotificationMessageType
+  message: string
+}
+
+const store = useNotificationStore()
+const {t} = useI18n()
+const scroll = ref<number>(0)
+const eventSource = ref<EventSource | null>(null)
+
+const handleScroll = () => {
+  scroll.value = window.scrollY
+}
+
+onMounted(() => {
+  document.addEventListener('scroll', handleScroll)
+
+  eventSource.value = new EventSource(
+    `${import.meta.env.VITE_API_BASE_URL ?? ""}/notifications`,
+  )
+
+  eventSource.value.onmessage = async (e: MessageEvent) => {
+    const message: NotificationMessage = JSON.parse(e.data)
+    if (message.messageType === NotificationMessageType.Success) {
+      await store.success(message.message);
+    }
+  }
+})
+
+onBeforeUnmount(() => {
+  document.removeEventListener('scroll', handleScroll)
+  eventSource.value?.close()
+  eventSource.value = null
+})
+
+const scrollTop = () => {
+  window.scrollTo(0, 0)
+}
+
+const grab = async () => {
+  await messageService.grab()
+}
+
+const invisible = computed(() => scroll.value <= 200)
+const successMessage = computed(() => store.$state.success)
+const message = computed(() => store.message)
+</script>
+
 <template>
   <header class="fixed min-h-12 bg-blue-500 w-full z-10 flex items-center">
     <div class="container mx-auto inline-flex items-center">
@@ -69,63 +129,3 @@
     <carbon-chevron-up class="text-white"/>
   </button>
 </template>
-
-<script lang="ts" setup>
-import {useI18n} from 'vue-i18n'
-import {computed, onBeforeUnmount, onMounted, ref} from 'vue'
-import messageService from '~/api/messages'
-import {useNotificationStore} from "~/store/notifications";
-
-enum NotificationMessageType {
-  Success = 0,
-  Danger,
-  Warning
-}
-
-type NotificationMessage = {
-  messageType: NotificationMessageType
-  message: string
-}
-
-const store = useNotificationStore()
-const {t} = useI18n()
-const scroll = ref<number>(0)
-const eventSource = ref<EventSource | null>(null)
-
-const handleScroll = () => {
-  scroll.value = window.scrollY
-}
-
-onMounted(() => {
-  document.addEventListener('scroll', handleScroll)
-
-  eventSource.value = new EventSource(
-    `${import.meta.env.VITE_API_BASE_URL ?? ""}/notifications`,
-  )
-
-  eventSource.value.onmessage = async (e: MessageEvent) => {
-    const message: NotificationMessage = JSON.parse(e.data)
-    if (message.messageType === NotificationMessageType.Success) {
-      await store.success(message.message);
-    }
-  }
-})
-
-onBeforeUnmount(() => {
-  document.removeEventListener('scroll', handleScroll)
-  eventSource.value?.close()
-  eventSource.value = null
-})
-
-const scrollTop = () => {
-  window.scrollTo(0, 0)
-}
-
-const grab = async () => {
-  await messageService.grab()
-}
-
-const invisible = computed(() => scroll.value <= 200)
-const successMessage = computed(() => store.$state.success)
-const message = computed(() => store.message)
-</script>

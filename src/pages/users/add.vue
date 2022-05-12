@@ -1,3 +1,22 @@
+<script lang="ts" setup>
+import {ref} from 'vue'
+import UsersService from '../../api/users'
+import {userUserStore} from "~/store/user";
+import type {VkUser} from '~/api/types'
+
+const search = ref('')
+const users = ref<VkUser[]>([])
+const store = userUserStore()
+
+const makeSearch = async () => {
+  users.value = await UsersService.search(search.value)
+}
+
+const add = async (user: VkUser) => {
+  await store.add(user)
+}
+</script>
+
 <template>
   <form class="flex flex-col w-2/5 md:w-1/5 gap-3 mb-3" @submit.prevent="makeSearch">
     <label class="flex flex-col">
@@ -27,22 +46,3 @@
     </div>
   </div>
 </template>
-
-<script lang="ts" setup>
-import {ref} from 'vue'
-import UsersService from '../../api/users'
-import {userUserStore} from "~/store/user";
-import type {VkUser} from '~/api/types'
-
-const search = ref('')
-const users = ref<VkUser[]>([])
-const store = userUserStore()
-
-const makeSearch = async () => {
-  users.value = await UsersService.search(search.value)
-}
-
-const add = async (user: VkUser) => {
-  await store.add(user)
-}
-</script>

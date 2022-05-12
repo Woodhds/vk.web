@@ -1,3 +1,16 @@
+<script lang="ts" setup>
+import { computed, onMounted } from "vue";
+import { userUserStore } from "~/store/user";
+
+const store = userUserStore();
+
+const users = computed(() => [...(store.users || [])]);
+
+onMounted(async () => {
+  await store.getUsers();
+});
+</script>
+
 <template>
   <div class="flex flex-col">
     <div
@@ -30,16 +43,3 @@
     </router-link>
   </div>
 </template>
-
-<script lang="ts" setup>
-import { computed, onMounted } from "vue";
-import { userUserStore } from "~/store/user";
-
-const store = userUserStore();
-
-const users = computed(() => [...(store.users || [])]);
-
-onMounted(async () => {
-  await store.getUsers();
-});
-</script>

@@ -1,3 +1,36 @@
+<script lang="ts" setup>
+import messageService from "~/api/messages";
+import type { PredictResult } from "~/api/types";
+import { sort } from "~/utils/predict";
+
+const regexp = /\d+_\d+/;
+
+const textId = ref("");
+const text = ref("");
+const warning = ref("");
+const predictions = ref<PredictResult>({});
+
+const validate = () => {
+  if (!regexp.test(textId.value)) {
+    warning.value = "Неверный идентификатор";
+  } else {
+    warning.value = "";
+  }
+};
+
+const submit = async () => {
+  validate();
+  if (warning.value)
+    return;
+
+  const [ownerId, id] = textId.value.split("_");
+
+  const { predict, message } = await messageService.predict(+ownerId, +id);
+  text.value = message?.text;
+  predictions.value = sort(predict);
+};
+</script>
+
 <template>
   <div class="mt-3">
     <form class="flex flex-col md:w-1/2 w-full" @submit.prevent="submit">
@@ -43,35 +76,3 @@
     </div>
   </div>
 </template>
-
-<script lang="ts" setup>
-import messageService from "~/api/messages";
-import type { PredictResult } from "~/api/types";
-import { sort } from "~/utils/predict";
-
-const regexp = /\d+_\d+/;
-
-const textId = ref("");
-const text = ref("");
-const warning = ref("");
-const predictions = ref<PredictResult>({});
-
-const validate = () => {
-  if (!regexp.test(textId.value)) {
-    warning.value = "Неверный идентификатор";
-  } else {
-    warning.value = "";
-  }
-};
-
-const submit = async () => {
-  validate();
-  if (warning.value) return;
-
-  const [ownerId, id] = textId.value.split("_");
-
-  const { predict, message } = await messageService.predict(+ownerId, +id);
-  text.value = message?.text;
-  predictions.value = sort(predict);
-};
-</script>

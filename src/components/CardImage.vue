@@ -1,35 +1,3 @@
-<template>
-  <div class="flex flex-col items-center relative">
-    <div class="">
-      <button v-if="totalImage > 1" class="action-btn action-btn__left btn" @click="prev">
-        <carbon-arrow-left />
-      </button>
-    </div>
-    <div class="flex flex-col mb-2 items-center">
-      <img ref="img" class="h-32 w-48 mb-2" :src="srcImg" />
-      <ul class="flex flex-wrap items-center justify-center h-4">
-        <li
-          v-for="(image, i) in imagePoints"
-          :key="i"
-          class="rounded-full relative border border-gray-300 h-4 w-4 p-1 ml-2 cursor-pointer"
-          @click="setCurrent(image)"
-        >
-          <span
-            v-if="image === 0"
-            :style="{ transform: 'translateX(' + currentImage * 24 + 'px)' }"
-            style="margin: 1px"
-            class="bg-gray-500 top-0 image-point left-0 w-3 h-3 absolute rounded-full block"
-          ></span>
-        </li>
-      </ul>
-    </div>
-    <div>
-      <button v-if="totalImage > 1" class="action-btn action-btn__right btn" @click="next">
-        <carbon-arrow-right />
-      </button>
-    </div>
-  </div>
-</template>
 <script lang="ts" setup>
 import { computed, onMounted, onUnmounted, ref } from 'vue'
 
@@ -63,7 +31,8 @@ const next = () => {
 }
 
 const prev = () => {
-  if (currentImage.value > 0) currentImage.value = currentImage.value - 1
+  if (currentImage.value > 0)
+    currentImage.value = currentImage.value - 1
 }
 
 const srcImg = computed(() => {
@@ -75,7 +44,8 @@ const srcImg = computed(() => {
 })
 
 onMounted(() => {
-  if (!img.value) return
+  if (!img.value)
+    return
 
   observer.value = new IntersectionObserver((entries, imgObserver) => {
     entries.forEach((x) => {
@@ -89,11 +59,45 @@ onMounted(() => {
 })
 
 onUnmounted(() => {
-  if (!observer.value) return
+  if (!observer.value)
+    return
+
   observer.value.disconnect()
 })
 
 </script>
+<template>
+  <div class="flex flex-col items-center relative">
+    <div class="">
+      <button v-if="totalImage > 1" class="action-btn action-btn__left btn" @click="prev">
+        <carbon-arrow-left />
+      </button>
+    </div>
+    <div class="flex flex-col mb-2 items-center">
+      <img ref="img" class="h-32 w-48 mb-2" :src="srcImg" />
+      <ul class="flex flex-wrap items-center justify-center h-4">
+        <li
+          v-for="(image, i) in imagePoints"
+          :key="i"
+          class="rounded-full relative border border-gray-300 h-4 w-4 p-1 ml-2 cursor-pointer"
+          @click="setCurrent(image)"
+        >
+          <span
+            v-if="image === 0"
+            :style="{ transform: 'translateX(' + currentImage * 24 + 'px)' }"
+            style="margin: 1px"
+            class="bg-gray-500 top-0 image-point left-0 w-3 h-3 absolute rounded-full block"
+          ></span>
+        </li>
+      </ul>
+    </div>
+    <div>
+      <button v-if="totalImage > 1" class="action-btn action-btn__right btn" @click="next">
+        <carbon-arrow-right />
+      </button>
+    </div>
+  </div>
+</template>
 
 <style scoped>
 .action-btn {
