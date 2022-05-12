@@ -9,7 +9,9 @@ export const userUserStore = defineStore("user", {
   state: (): UserState => ({ users: [], user: "" } as UserState),
   actions: {
     async getUsers() {
-      if (isInit) return;
+      if (isInit)
+        return;
+      
       const users = (await UsersService.getUsers()) || [];
       this.users = [...users];
       isInit = true;

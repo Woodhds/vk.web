@@ -15,6 +15,7 @@ declare module 'vue' {
     CarbonWarning: typeof import('~icons/carbon/warning')['default']
     Card: typeof import('./components/Card.vue')['default']
     CardImage: typeof import('./components/CardImage.vue')['default']
+    CardSelect: typeof import('./components/CardSelect.vue')['default']
     README: typeof import('./components/README.md')['default']
   }
 }

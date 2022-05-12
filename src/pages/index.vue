@@ -1,112 +1,4 @@
-<template>
-  <form class="flex flex-col" @submit.prevent="onSubmit">
-    <label for="search" class="mb-2 text-xl">Поиск</label>
-    <input
-      id="search"
-      v-model="search"
-      class="
-        border border-blue-500
-        focus:outline-none focus:ring
-        transition-all
-        p-1
-        sm:w-1/2
-        md:w-1/3
-        mb-2
-      "
-      autocomplete="off"
-    />
-    <button type="submit" class="p-2 w-1/2 md:w-1/6 btn">
-      {{ t("send") }}
-    </button>
-  </form>
-  <div
-    class="
-      grid
-      sm:grid-cols-1
-      md:grid-cols-2
-      lg:grid-cols-3
-      gap-4
-      py-6
-      relative
-      min-h-64
-    "
-  >
-    <div
-      v-for="m in messages"
-      :key="`${m.ownerId}_${m.id}`"
-      class="overflow-auto border p-4 rounded"
-    >
-      <card :message="m">
-        <template #bottom="{ message }">
-          <hr class="my-4" />
-          <div class="flex items-center">
-            <button
-              class="
-                flex
-                items-center
-                hover:text-blue-500
-                transition
-                duration-200
-                focus:outline-none
-              "
-              @click="like(message.ownerId, message.id)"
-            >
-              <carbon-thumbs-up class="mr-2" />
-              {{ message.likesCount }}
-            </button>
-            <button
-              class="
-                flex
-                items-center
-                ml-4
-                hover:text-blue-500
-                transition
-                duration-200
-                focus:outline-none
-              "
-              :class="{ 'text-red-500': message.userReposted }"
-              @click="repost(message.ownerId, message.id)"
-            >
-              <carbon-share class="mr-2" />
-              {{ message.repostsCount }}
-            </button>
-            <div class="flex-1"></div>
-            <div>
-              <select
-                class="w-32 border text-sm focus:outline-none focus:ring"
-                :value="message.isAccept ? message.category : ''"
-                @change="
-                  (e) => save(message.ownerId, message.id, e.target.value)
-                "
-              >
-                <option value="" disabled>
-                  {{
-                    message.isAccept ? "" : message.category
-                  }}&nbsp;&nbsp;&bull;
-                </option>
-                <option
-                  v-for="category in getCategories(message)"
-                  :key="category.id"
-                  :value="category.title"
-                  class="py-2"
-                >
-                  {{ category.title }}
-                  {{
-                    message.isAccept || !category.score
-                      ? ""
-                      : ` ${Math.round(category.score * 100)}%`
-                  }}
-                </option>
-              </select>
-            </div>
-          </div>
-        </template>
-      </card>
-    </div>
-  </div>
-</template>
-
-<script setup lang="ts">
+<script lang="ts" setup>
 import { computed, onMounted, ref } from "vue";
 import { useI18n } from "vue-i18n";
 import Card from "~/components/Card.vue";
@@ -161,3 +53,61 @@ const repost = async (ownerId: number, id: number) => {
   ]);
 };
 </script>
+
+<template>
+  <form class="flex flex-col" @submit.prevent="onSubmit">
+    <label class="mb-2 text-xl" for="search">Поиск</label>
+    <input
+      id="search"
+      v-model="search"
+      autocomplete="off"
+      class="border border-blue-500 focus:outline-none focus:ring transition-all p-1 sm:w-1/2 md:w-1/3 mb-2"
+    />
+    <button class="p-2 w-1/2 md:w-1/6 btn" type="submit">
+      {{ t("send") }}
+    </button>
+  </form>
+  <div
+    class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 py-6 relative min-h-64"
+  >
+    <div
+      v-for="m in messages"
+      :key="`${m.ownerId}_${m.id}`"
+      class="overflow-auto border p-4 rounded"
+    >
+      <card :message="m">
+        <template #bottom="{ message }">
+          <hr class="my-4" />
+          <div class="flex items-center">
+            <button
+              class="flex items-center hover:text-blue-500 transition duration-200 focus:outline-none"
+              @click="like(message.ownerId, message.id)"
+            >
+              <carbon-thumbs-up class="mr-2" />
+              {{ message.likesCount }}
+            </button>
+            <button
+              :class="{ 'text-red-500': message.userReposted }"
+              class="flex items-center ml-4 hover:text-blue-500 transition duration-200 focus:outline-none"
+              @click="repost(message.ownerId, message.id)"
+            >
+              <carbon-share class="mr-2" />
+              {{ message.repostsCount }}
+            </button>
+            <div class="flex-1"></div>
+            <div>
+              <card-select
+                :categories="getCategories(message)"
+                :category="message.category"
+                :message-id="message.id"
+                :owner-id="message.ownerId"
+                :is-accept="message.isAccept"
+                @save="save"
+              ></card-select>
+            </div>
+          </div>
+        </template>
+      </card>
+    </div>
+  </div>
+</template>
