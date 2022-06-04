@@ -13,6 +13,14 @@ class UsersService {
   async add(user: VkUser) {
     await apiClient.postAsync('/users', user)
   }
+
+  async deleteUser(id: number) {
+    await apiClient.deleteAsync('/users', {
+      params: {
+        id,
+      },
+    })
+  }
 }
 
 export default new UsersService()

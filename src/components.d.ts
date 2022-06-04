@@ -7,6 +7,7 @@ declare module 'vue' {
     CarbonArrowLeft: typeof import('~icons/carbon/arrow-left')['default']
     CarbonArrowRight: typeof import('~icons/carbon/arrow-right')['default']
     CarbonChevronUp: typeof import('~icons/carbon/chevron-up')['default']
+    CarbonClose: typeof import('~icons/carbon/close')['default']
     CarbonDeliveryParcel: typeof import('~icons/carbon/delivery-parcel')['default']
     CarbonShare: typeof import('~icons/carbon/share')['default']
     CarbonThumbsUp: typeof import('~icons/carbon/thumbs-up')['default']

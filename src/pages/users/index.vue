@@ -1,14 +1,18 @@
 <script lang="ts" setup>
-import { computed, onMounted } from "vue";
-import { userUserStore } from "~/store/user";
+import { computed, onMounted } from 'vue'
+import { userUserStore } from '~/store/user'
 
-const store = userUserStore();
+const store = userUserStore()
 
-const users = computed(() => [...(store.users || [])]);
+const users = computed(() => [...(store.users || [])])
 
-onMounted(async () => {
-  await store.getUsers();
-});
+const deleteUser = async (id: number) => {
+  await store.delete(id)
+}
+
+onMounted(async() => {
+  await store.getUsers()
+})
 </script>
 
 <template>
@@ -23,7 +27,14 @@ onMounted(async () => {
         :src="u.avatar"
         :title="u.name"
       />
-      <a :href="`https://vk.com/id${u.id}`" target="_blank">{{ u.name }}</a>
+      <div>
+        <a class="block" :href="`https://vk.com/id${u.id}`" target="_blank">{{ u.name }}</a>
+      </div>
+      <div>
+        <a href="#" class="block text-red-400 ml-4" @click.prevent="deleteUser(u.id)">
+          <carbon-close/>
+        </a>
+      </div>
     </div>
     <router-link to="/users/add">
       <button
