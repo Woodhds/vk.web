@@ -79,17 +79,6 @@ const message = computed(() => store.message)
       >
         {{ t('users') }}
       </router-link>
-      <router-link
-        to="/predictions"
-        class="
-          text-white
-          pl-4
-          hover:text-gray-200
-          cursor-pointer
-          transition-all
-        ">
-        Предсказать
-      </router-link>
       <div class="flex-1"></div>
       <button class="btn" @click="grab">Получить</button>
     </div>

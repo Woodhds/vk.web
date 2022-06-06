@@ -29,6 +29,4 @@ export interface Category {
   color: string
 }
 
-export interface PredictResult {
-  [key: string]: number;
-}
+export type PredictResult = Record<string, number>;

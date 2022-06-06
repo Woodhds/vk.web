@@ -1,5 +1,5 @@
 import ApiClient from "./apiClient";
-import type { PredictResult, VkMessage } from "./types";
+import type { VkMessage } from "./types";
 
 class MessageService {
   async getMessages(search = "") {
@@ -23,15 +23,8 @@ class MessageService {
   async grab() {
     return await ApiClient.getAsync("/grab");
   }
-
-  async predict(ownerId: number, id: number) {
-    return await ApiClient.postAsync<{
-      message: VkMessage;
-      predict: PredictResult;
-    }>(`predict/${ownerId}/${id}`);
-  }
 }
 
 const messageService = new MessageService();
 
-export default messageService
+export default messageService;
