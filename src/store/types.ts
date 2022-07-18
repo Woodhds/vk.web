@@ -7,6 +7,7 @@ export interface UserState {
 
 export interface NotificationState {
   success: boolean;
+  danger: boolean;
   error: boolean;
   message: string;
 }

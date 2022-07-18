@@ -13,6 +13,7 @@ declare module 'vue' {
     Card: typeof import('./components/Card.vue')['default']
     CardImage: typeof import('./components/CardImage.vue')['default']
     CardSelect: typeof import('./components/CardSelect.vue')['default']
+    Notifications: typeof import('./components/notifications.vue')['default']
     README: typeof import('./components/README.md')['default']
   }
 }
