@@ -1,11 +1,15 @@
 import ApiClient from "./apiClient";
-import type { VkMessage } from "./types";
+import type { GetMessagesResponse } from "./types";
 
 class MessageService {
   async getMessages(search = "") {
-    return await ApiClient.getAsync<VkMessage[] | null>("/messages", {
-      params: { search },
-    });
+    return (
+      (
+        await ApiClient.postAsync<GetMessagesResponse>("/messages", {
+          search,
+        })
+      ).messages ?? []
+    );
   }
 
   async repost(messages: { id: number; owner_Id: number }[]) {

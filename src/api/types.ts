@@ -17,6 +17,10 @@ export interface VkMessage {
   scores: PredictResult
 }
 
+export interface GetMessagesResponse {
+  messages: VkMessage[]
+}
+
 export interface VkUser {
   id: number
   name: string
