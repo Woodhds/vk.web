@@ -1,31 +1,31 @@
-import ApiClient from "./apiClient";
-import type { GetMessagesResponse } from "./types";
+import { api } from 'boot/axios'
+import type { GetMessagesResponse } from './types';
 
 class MessageService {
-  async getMessages(search = "") {
+  async getMessages(search = '') {
     return (
       (
-        await ApiClient.postAsync<GetMessagesResponse>("/messages", {
+        await api.post<GetMessagesResponse>('/messages', {
           search,
         })
-      ).messages ?? []
+      ).data.messages ?? []
     );
   }
 
   async repost(messages: { id: number; owner_Id: number }[]) {
-    return await ApiClient.postAsync("/repost", {messages });
+    return await api.post('/repost', {messages });
   }
 
   async save(ownerId: number, id: number, category: string) {
-    return await ApiClient.postAsync(`messages/${ownerId}/${id}`, { category });
+    return await api.post(`messages/${ownerId}/${id}`, { category });
   }
 
   async like(ownerId: number, id: number) {
-    return await ApiClient.postAsync(`/like/${ownerId}/${id}`);
+    return await api.post(`/like/${ownerId}/${id}`);
   }
 
   async grab() {
-    return await ApiClient.getAsync("/grab");
+    return await api.get('/grab');
   }
 }
 

@@ -1,21 +1,21 @@
-import apiClient from './apiClient'
+import { api } from 'boot/axios'
 import type { VkUser } from './types'
 
 class UsersService {
-  getUsers() {
-    return apiClient.getAsync<VkUser[]>('/users')
+  async getUsers() {
+    return (await api.get<VkUser[]>('/users')).data
   }
 
-  search(query: string) {
-    return apiClient.getAsync<VkUser[]>('/users/search', { params: { q: query } })
+  async search(query: string) {
+    return (await api.get<VkUser[]>('/users/search', { params: { q: query } })).data
   }
 
   async add(user: VkUser) {
-    await apiClient.postAsync('/users', user)
+    await api.post('/users', user)
   }
 
   async deleteUser(id: number) {
-    await apiClient.deleteAsync('/users', {
+    await api.delete('/users', {
       params: {
         id,
       },

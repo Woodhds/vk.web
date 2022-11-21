@@ -1,56 +1,41 @@
 {
+  "name": "vk.web",
+  "version": "0.0.1",
+  "description": "Vk competitions project",
+  "productName": "Competitions",
+  "author": "s.borodin <woodhds@gmail.com>",
   "private": true,
   "scripts": {
-    "dev": "vite --open",
-    "build": "cross-env NODE_ENV=production vite-ssg build",
-    "preview": "vite preview",
-    "preview-https": "serve dist"
+    "dev": "quasar dev",
+    "lint": "eslint --ext .js,.ts,.vue ./",
+    "format": "prettier --write \"**/*.{js,ts,vue,scss,html,md,json}\" --ignore-path .gitignore",
+    "test": "echo \"No test specified\" && exit 0"
   },
   "dependencies": {
-    "@vueuse/core": "^8.2.5",
-    "@vueuse/head": "^0.7.5",
-    "axios": "^0.26.1",
-    "nprogress": "^0.2.0",
-    "pinia": "^2.0.13",
-    "prism-theme-vars": "^0.2.2",
-    "vue": "^3.2.31",
-    "vue-i18n": "^9.1.9",
-    "vue-router": "^4.0.14"
+    "@quasar/extras": "^1.0.0",
+    "axios": "^0.21.1",
+    "pinia": "^2.0.11",
+    "quasar": "^2.6.0",
+    "vue": "^3.0.0",
+    "vue-router": "^4.0.0"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^0.20.2",
-    "@iconify/json": "^2.1.26",
-    "@intlify/vite-plugin-vue-i18n": "^3.4.0",
-    "@types/markdown-it-link-attributes": "^3.0.1",
-    "@types/nprogress": "^0.2.0",
-    "@typescript-eslint/eslint-plugin": "^5.18.0",
-    "@vitejs/plugin-vue": "^2.3.1",
-    "@vue/compiler-sfc": "^3.2.31",
-    "@vue/server-renderer": "^3.2.31",
-    "cross-env": "^7.0.3",
-    "eslint": "^8.12.0",
-    "eslint-config-prettier": "^8.5.0",
-    "eslint-plugin-prettier": "^4.0.0",
-    "https-localhost": "^4.7.1",
-    "markdown-it-link-attributes": "^4.0.0",
-    "markdown-it-prism": "^2.2.3",
-    "pnpm": "^6.32.4",
-    "prettier": "^2.6.2",
-    "typescript": "^4.6.3",
-    "unplugin-auto-import": "^0.6.9",
-    "unplugin-icons": "^0.14.1",
-    "unplugin-vue-components": "^0.18.5",
-    "vite": "^2.9.1",
-    "vite-plugin-components": "^0.13.3",
-    "vite-plugin-inspect": "^0.4.3",
-    "vite-plugin-md": "^0.12.4",
-    "vite-plugin-pages": "^0.22.0",
-    "vite-plugin-pwa": "^0.11.13",
-    "vite-plugin-vue-layouts": "^0.6.0",
-    "vite-plugin-windicss": "^1.8.3",
-    "vite-ssg": "^0.19.2"
+    "@quasar/app-vite": "^1.0.0",
+    "@types/node": "^12.20.21",
+    "@typescript-eslint/eslint-plugin": "^5.10.0",
+    "@typescript-eslint/parser": "^5.10.0",
+    "autoprefixer": "^10.4.2",
+    "eslint": "^8.10.0",
+    "eslint-config-prettier": "^8.1.0",
+    "eslint-plugin-vue": "^9.0.0",
+    "prettier": "^2.5.1",
+    "typescript": "^4.5.4"
   },
-  "resolutions": {
-    "vue-demi": "0.11.4"
-  }
+  "engines": {
+    "node": "^18 || ^16 || ^14.19",
+    "npm": ">= 6.13.4",
+    "yarn": ">= 1.21.1"
+  },
+  "main": "index.js",
+  "license": "MIT"
 }
