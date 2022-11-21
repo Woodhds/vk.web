@@ -13,7 +13,7 @@ class MessageService {
   }
 
   async repost(messages: { id: number; owner_Id: number }[]) {
-    return await ApiClient.postAsync("/repost", messages);
+    return await ApiClient.postAsync("/repost", {messages });
   }
 
   async save(ownerId: number, id: number, category: string) {
