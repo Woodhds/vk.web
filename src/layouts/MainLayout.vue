@@ -1,12 +1,18 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
+  <q-layout view="hHh Lpr lfr">
     <q-header elevated>
       <q-toolbar>
-        <q-toolbar-title>
-          <router-link to="/">
-            <q-icon name="settings" color="white"/>
-          </router-link>
-        </q-toolbar-title>
+        <q-icon class="q-mr-lg" name="settings" size="24px"/>
+        <q-tabs>
+          <q-route-tab to="/" no-caps>
+            Репосты
+          </q-route-tab>
+          <q-route-tab to="/users" no-caps>
+            Пользователи
+          </q-route-tab>
+        </q-tabs>
+        <q-space/>
+        <q-btn flat label="Получить" @click="grab" no-caps/>
       </q-toolbar>
     </q-header>
 
@@ -17,5 +23,9 @@
 </template>
 
 <script setup lang="ts">
+import messageService from 'src/api/messages';
 
+const grab = async () => {
+  await messageService.grab();
+};
 </script>
