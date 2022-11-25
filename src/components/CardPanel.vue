@@ -1,25 +1,26 @@
 <template>
-  <q-card class="my-card bg-secondary text-white">
-    <q-card-section>
-      <a
+  <q-card>
+    <q-card-section class="q-pb-none">
+      <q-btn
         :href="'https://vk.com/wall' + message.ownerId + '_' + message.id"
         :title="message.owner"
-        class="block flex-1 text-xl truncate"
         target="_blank"
+        flat
+        dense
+        class="card__title"
       >
         {{ message.owner ? message.owner : 'Пост' }}
-      </a>
+      </q-btn>
     </q-card-section>
     <q-card-section>
       <card-image :src="message.images" />
     </q-card-section>
     <q-card-section>
-        <pre
-          class="leading-4 whitespace-pre-wrap h-48 overflow-auto text-xs"
-          v-html="text"
-        ></pre>
+      <q-scroll-area style="height: 12rem; width: 100%">
+        <pre class="card__text" v-html="text"></pre>
+      </q-scroll-area>
     </q-card-section>
-    <q-separator dark inset />
+    <q-separator />
     <slot :message="message" name="bottom"></slot>
   </q-card>
 </template>
@@ -27,7 +28,7 @@
 <script lang="ts" setup>
 import type { VkMessage } from 'src/api/types';
 import { computed } from 'vue';
-import CardImage from 'src/components/CardImage'
+import CardImage from 'src/components/CardImage.vue';
 
 const regexp = /\[(club[0-9]+)\|(.+)\]/;
 
@@ -46,3 +47,20 @@ const text = computed(() => {
   );
 });
 </script>
+
+<style scoped>
+.card__text {
+  font-size: 0.8em;
+  white-space: pre-wrap;
+}
+
+.card__title >>> .q-btn__content {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: inline-block;
+}
+
+>>> .q-scrollarea__content {
+  width: 100%;
+}
+</style>
