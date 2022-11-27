@@ -16,7 +16,7 @@
     </q-form>
     <div class="row q-col-gutter-md">
       <div
-        v-for="m in messages"
+        v-for="(m, idx) in messages"
         :key="`${m.ownerId}_${m.id}`"
         class="col-xs-12 col-sm-6 col-md-4"
       >
@@ -36,9 +36,10 @@
                 flat
                 dense
                 icon="send"
+                :loading="isLoading[idx]"
                 :color="message.userReposted ? 'negative' : 'primary'"
                 :label="message.repostsCount"
-                @click="repost(message.ownerId, message.id)"
+                @click="repost(message.ownerId, message.id, idx)"
               >
               </q-btn>
             </q-card-actions>
@@ -51,7 +52,7 @@
 
 <script setup lang="ts">
 import CardPanel from 'components/CardPanel.vue';
-import { computed, onMounted, ref } from 'vue';
+import {computed, onMounted, ref, watch} from 'vue';
 import categoriesService from 'src/api/categories';
 import { useMessagesStore } from 'src/stores/messages';
 import type { Category } from 'src/api/types';
@@ -62,6 +63,10 @@ const store = useMessagesStore();
 const messages = computed(() => store.messages);
 const search = ref('');
 const categories = ref([] as Category[]);
+const isLoading = ref<Array<boolean>>([])
+watch(messages, () => {
+  isLoading.value = messages.value.map(() => false)
+})
 
 onMounted(async () => {
   categories.value = await categoriesService.getCategories();
@@ -75,12 +80,17 @@ const like = async (ownerId: number, id: number) => {
   await messageService.like(ownerId, id);
 };
 
-const repost = async (ownerId: number, id: number) => {
-  await store.repost([
-    {
-      ownerId,
-      id,
-    },
-  ]);
+const repost = async (ownerId: number, id: number, idx: number) => {
+  try {
+    isLoading.value[idx] = true;
+    await store.repost([
+      {
+        ownerId,
+        id,
+      },
+    ]);
+  } finally {
+    isLoading.value[idx] = false
+  }
 };
 </script>

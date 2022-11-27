@@ -54,13 +54,13 @@ const text = computed(() => {
   white-space: pre-wrap;
 }
 
-.card__title >>> .q-btn__content {
+.card__title :deep(.q-btn__content) {
   text-overflow: ellipsis;
   white-space: nowrap;
   display: inline-block;
 }
 
->>> .q-scrollarea__content {
+:deep(.q-scrollarea__content) {
   width: 100%;
 }
 </style>

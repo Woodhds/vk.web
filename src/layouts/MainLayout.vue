@@ -7,7 +7,7 @@
           <q-route-tab to="/" no-caps>
             Репосты
           </q-route-tab>
-          <q-route-tab to="/users" no-caps>
+          <q-route-tab to="/users"  no-caps>
             Пользователи
           </q-route-tab>
         </q-tabs>
