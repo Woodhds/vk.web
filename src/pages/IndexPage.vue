@@ -12,7 +12,7 @@
         dense
         label="Поиск"
       ></q-input>
-      <q-btn color="primary" type="submit">Отправить</q-btn>
+      <q-btn color="primary" type="submit" :loading="isSearch">Отправить</q-btn>
     </q-form>
     <div class="row q-col-gutter-md">
       <div
@@ -52,7 +52,7 @@
 
 <script setup lang="ts">
 import CardPanel from 'components/CardPanel.vue';
-import {computed, onMounted, ref, watch} from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import categoriesService from 'src/api/categories';
 import { useMessagesStore } from 'src/stores/messages';
 import type { Category } from 'src/api/types';
@@ -63,17 +63,24 @@ const store = useMessagesStore();
 const messages = computed(() => store.messages);
 const search = ref('');
 const categories = ref([] as Category[]);
-const isLoading = ref<Array<boolean>>([])
+const isLoading = ref<Array<boolean>>([]);
+const isSearch = ref<boolean>(false);
+
 watch(messages, () => {
-  isLoading.value = messages.value.map(() => false)
-})
+  isLoading.value = messages.value.map(() => false);
+});
 
 onMounted(async () => {
   categories.value = await categoriesService.getCategories();
 });
 
 const onSubmit = async () => {
-  await store.getMessages(search.value);
+  try {
+    isSearch.value = true;
+    await store.getMessages(search.value);
+  } finally {
+    isSearch.value = false;
+  }
 };
 
 const like = async (ownerId: number, id: number) => {
@@ -90,7 +97,7 @@ const repost = async (ownerId: number, id: number, idx: number) => {
       },
     ]);
   } finally {
-    isLoading.value[idx] = false
+    isLoading.value[idx] = false;
   }
 };
 </script>
