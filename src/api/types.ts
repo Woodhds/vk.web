@@ -27,6 +27,10 @@ export interface VkUser {
   avatar: string
 }
 
+export interface VkUserListResponse {
+  users: VkUser[]
+}
+
 export interface Category {
   id: number
   title: string

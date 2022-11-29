@@ -14,16 +14,18 @@
       class="row q-gutter-sm items-center"
     >
       <q-avatar>
-        <q-img :src="user.avatar" />
+        <q-img :src="user.avatar" :title="user.name" />
       </q-avatar>
       <q-btn
-        :href="`https://vk.com/id${user.id}`"
-        flat
+        class="col-xs-8 col-md-3 col-lg-2"
+        unelevated
         dense
+        flat
         no-caps
+        :href="`https://vk.com/id${user.id}`"
         target="_blank"
         :label="user.name"
-      ></q-btn>
+      />
       <q-btn color="positive" fab-mini flat icon="add" @click="add(user)">
       </q-btn>
     </div>

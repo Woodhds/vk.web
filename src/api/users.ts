@@ -1,13 +1,13 @@
 import { api } from 'boot/axios'
-import type { VkUser } from './types'
+import type { VkUser, VkUserListResponse } from './types'
 
 class UsersService {
   async getUsers() {
-    return (await api.get<VkUser[]>('/users')).data
+    return (await api.get<VkUserListResponse>('/users')).data.users
   }
 
   async search(query: string) {
-    return (await api.get<VkUser[]>('/users/search', { params: { q: query } })).data
+    return (await api.post<VkUserListResponse>('/users/search', {search: query})).data.users
   }
 
   async add(user: VkUser) {
@@ -15,11 +15,7 @@ class UsersService {
   }
 
   async deleteUser(id: number) {
-    await api.delete('/users', {
-      params: {
-        id,
-      },
-    })
+    await api.delete(`/users/${id}`)
   }
 }
 
