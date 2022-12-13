@@ -20,7 +20,7 @@
         :key="`${m.ownerId}_${m.id}`"
         class="col-xs-12 col-sm-6 col-md-4"
       >
-        <card-panel :message="m">
+        <card-panel :message="m" :is-loading="isCardLoading(m.ownerId, m.id)">
           <template #bottom="{ message }">
             <q-card-actions>
               <q-btn
@@ -42,6 +42,8 @@
                 @click="repost(message.ownerId, message.id, idx)"
               >
               </q-btn>
+              <q-space />
+              <q-btn color="grey-4" flat dense icon="refresh" @click="update(message.ownerId, message.id)" />
             </q-card-actions>
           </template>
         </card-panel>
@@ -52,27 +54,34 @@
 
 <script setup lang="ts">
 import CardPanel from 'components/CardPanel.vue';
-import { computed, onMounted, ref, watch } from 'vue';
-import categoriesService from 'src/api/categories';
+import { computed, ref, watch } from 'vue';
 import { useMessagesStore } from 'src/stores/messages';
-import type { Category } from 'src/api/types';
 import messageService from 'src/api/messages';
 
 const store = useMessagesStore();
 
 const messages = computed(() => store.messages);
 const search = ref('');
-const categories = ref([] as Category[]);
 const isLoading = ref<Array<boolean>>([]);
+const cardLoading = ref('');
 const isSearch = ref<boolean>(false);
+
+const isCardLoading =  (ownerId: number, id: number) => {
+  return cardLoading.value === `${ownerId}_${id}`
+}
 
 watch(messages, () => {
   isLoading.value = messages.value.map(() => false);
 });
 
-onMounted(async () => {
-  categories.value = await categoriesService.getCategories();
-});
+const update = async (ownerId: number, id: number) => {
+  try {
+    cardLoading.value = `${ownerId}_${id}`;
+    await store.update(ownerId, id)
+  } finally {
+    cardLoading.value = ''
+  }
+}
 
 const onSubmit = async () => {
   try {

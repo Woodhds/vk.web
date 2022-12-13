@@ -1,5 +1,8 @@
 <template>
   <q-card>
+    <q-inner-loading :showing="isLoading" dark style="z-index: 10">
+      <q-spinner size="50px" color="primary" />
+    </q-inner-loading>
     <q-card-section class="q-pb-none">
       <q-btn
         :href="'https://vk.com/wall' + message.ownerId + '_' + message.id"
@@ -43,6 +46,10 @@ const props = defineProps({
     default: () => null,
     required: true,
   },
+  isLoading: {
+    type: Boolean,
+    default: false
+  }
 });
 
 const text = computed(() => {

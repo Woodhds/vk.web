@@ -5,7 +5,7 @@
     @submit.prevent="makeSearch"
   >
     <q-input dense outlined v-model="search" label="Поиск" />
-    <q-btn color="primary" type="submit" label="Отправить"> </q-btn>
+    <q-btn color="primary" type="submit" label="Отправить"></q-btn>
   </q-form>
   <div class="column">
     <div

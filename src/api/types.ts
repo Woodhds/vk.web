@@ -12,9 +12,6 @@ export interface VkMessage {
   messageCategoryId: number | null
   messageCategoryPredict: string | null
   userReposted: boolean
-  category: string
-  isAccept: boolean
-  scores: PredictResult
 }
 
 export interface GetMessagesResponse {
@@ -30,11 +27,3 @@ export interface VkUser {
 export interface VkUserListResponse {
   users: VkUser[]
 }
-
-export interface Category {
-  id: number
-  title: string
-  color: string
-}
-
-export type PredictResult = Record<string, number>;

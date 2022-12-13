@@ -1,4 +1,5 @@
 import { api } from 'boot/axios'
+import {VkMessage} from './types';
 import type { GetMessagesResponse } from './types';
 
 class MessageService {
@@ -16,8 +17,8 @@ class MessageService {
     return await api.post('/repost', {messages });
   }
 
-  async save(ownerId: number, id: number, category: string) {
-    return await api.post(`messages/${ownerId}/${id}`, { category });
+  async update(ownerId: number, id: number) {
+    return (await api.put<VkMessage>('/update', { ownerId, id }))?.data
   }
 
   async like(ownerId: number, id: number) {
