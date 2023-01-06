@@ -13,6 +13,7 @@
         label="Поиск"
       ></q-input>
       <q-btn color="primary" type="submit" :loading="isSearch">Отправить</q-btn>
+      <q-checkbox label="Скрыть репостнутые" v-model="isReposted" dense/>
     </q-form>
     <div class="row q-col-gutter-md">
       <div
@@ -42,8 +43,8 @@
                 @click="repost(message.ownerId, message.id, idx)"
               >
               </q-btn>
-              <q-space />
-              <q-btn color="grey-4" flat dense icon="refresh" @click="update(message.ownerId, message.id)" />
+              <q-space/>
+              <q-btn color="grey-4" flat dense icon="refresh" @click="update(message.ownerId, message.id)"/>
             </q-card-actions>
           </template>
         </card-panel>
@@ -54,19 +55,22 @@
 
 <script setup lang="ts">
 import CardPanel from 'components/CardPanel.vue';
-import { computed, ref, watch } from 'vue';
-import { useMessagesStore } from 'src/stores/messages';
+import {computed, ref, watch} from 'vue';
+import {useMessagesStore} from 'src/stores/messages';
 import messageService from 'src/api/messages';
+import {useQuasar} from 'quasar'
 
 const store = useMessagesStore();
+const q = useQuasar();
 
-const messages = computed(() => store.messages);
+const messages = computed(() => isReposted.value ? store.messages.filter(a => !a.userReposted) : store.messages);
 const search = ref('');
 const isLoading = ref<Array<boolean>>([]);
 const cardLoading = ref('');
 const isSearch = ref<boolean>(false);
+const isReposted = ref(false);
 
-const isCardLoading =  (ownerId: number, id: number) => {
+const isCardLoading = (ownerId: number, id: number) => {
   return cardLoading.value === `${ownerId}_${id}`
 }
 
@@ -105,6 +109,8 @@ const repost = async (ownerId: number, id: number, idx: number) => {
         id,
       },
     ]);
+  } catch (e) {
+    q.notify({badgePosition: 'top-right', type: 'negative', message: JSON.stringify(e)})
   } finally {
     isLoading.value[idx] = false;
   }
