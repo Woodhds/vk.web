@@ -59,6 +59,7 @@ import {computed, ref, watch} from 'vue';
 import {useMessagesStore} from 'src/stores/messages';
 import messageService from 'src/api/messages';
 import {useQuasar} from 'quasar'
+import {AxiosError} from 'axios';
 
 const store = useMessagesStore();
 const q = useQuasar();
@@ -110,7 +111,7 @@ const repost = async (ownerId: number, id: number, idx: number) => {
       },
     ]);
   } catch (e) {
-    q.notify({badgePosition: 'top-right', type: 'negative', message: JSON.stringify(e)})
+    q.notify({badgePosition: 'top-right', type: 'negative', message: (e as AxiosError).message})
   } finally {
     isLoading.value[idx] = false;
   }
