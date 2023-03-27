@@ -22,6 +22,10 @@ const routes: RouteRecordRaw[] = [
             component: () => import('pages/UsersAdd.vue')
           }
         ]
+      },
+      {
+        path: '/groups',
+        component: () => import('pages/GroupsPage.vue')
       }
     ],
   },

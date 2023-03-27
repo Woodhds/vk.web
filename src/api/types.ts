@@ -27,3 +27,13 @@ export interface VkUser {
 export interface VkUserListResponse {
   users: VkUser[]
 }
+
+export interface VkUserGroup {
+  id: number;
+  name: string;
+  avatar: string;
+}
+
+export interface VkGroupGetResponse {
+  groups: VkUserGroup[]
+}

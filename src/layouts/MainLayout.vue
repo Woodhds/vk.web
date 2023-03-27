@@ -4,8 +4,9 @@
       <q-toolbar>
         <q-icon class="q-mr-lg" name="settings" size="24px" />
         <q-tabs>
-          <q-route-tab to="/" no-caps> Репосты </q-route-tab>
-          <q-route-tab to="/users" no-caps> Пользователи </q-route-tab>
+          <q-route-tab to="/" no-caps>Репосты</q-route-tab>
+          <q-route-tab to="/users" no-caps>Пользователи</q-route-tab>
+          <q-route-tab to="/groups" no-caps>Группы</q-route-tab>
         </q-tabs>
         <q-space />
         <q-btn flat label="Получить" @click="grab" no-caps />
