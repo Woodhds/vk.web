@@ -29,16 +29,5 @@ export const useMessagesStore = defineStore('messages', {
         }
       }
     },
-    async update(ownerId: number, id: number) {
-      const message = await messageService.update(ownerId, id);
-      if (message != null) {
-        const idx = this.messages.findIndex(
-          (f) => f.ownerId == message.ownerId && f.id == message.id
-        );
-        if (idx >= 0) {
-          this.messages.splice(idx, 1, message);
-        }
-      }
-    },
   },
 });

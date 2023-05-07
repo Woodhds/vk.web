@@ -43,8 +43,6 @@
                 @click="repost(message.ownerId, message.id, idx)"
               >
               </q-btn>
-              <q-space/>
-              <q-btn color="grey-4" flat dense icon="refresh" @click="update(message.ownerId, message.id)"/>
             </q-card-actions>
           </template>
         </card-panel>
@@ -78,15 +76,6 @@ const isCardLoading = (ownerId: number, id: number) => {
 watch(messages, () => {
   isLoading.value = messages.value.map(() => false);
 });
-
-const update = async (ownerId: number, id: number) => {
-  try {
-    cardLoading.value = `${ownerId}_${id}`;
-    await store.update(ownerId, id)
-  } finally {
-    cardLoading.value = ''
-  }
-}
 
 const onSubmit = async () => {
   try {
