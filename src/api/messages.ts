@@ -17,7 +17,7 @@ class MessageService {
   }
 
   async like(ownerId: number, id: number) {
-    return await api.post(`/like/${ownerId}/${id}`);
+    return await api.post('/like', { ownerId, id });
   }
 
   async grab() {
