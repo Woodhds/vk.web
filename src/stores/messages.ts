@@ -29,5 +29,16 @@ export const useMessagesStore = defineStore('messages', {
         }
       }
     },
+    async like(ownerId: number, id: number) {
+      await messageService.like(ownerId, id);
+
+      const message = this.messages.find(
+        (e) => e.ownerId === ownerId && e.id === id
+      );
+
+      if (message) {
+        message.userLikes = true;
+      }
+    },
   },
 });

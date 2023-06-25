@@ -8,10 +8,8 @@ export interface VkMessage {
   owner: string
   text: string
   images: string[]
-  isSelected: boolean
-  messageCategoryId: number | null
-  messageCategoryPredict: string | null
   userReposted: boolean
+  userLikes: boolean
 }
 
 export interface GetMessagesResponse {

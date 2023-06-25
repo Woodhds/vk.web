@@ -28,16 +28,17 @@
                 flat
                 dense
                 icon="thumb_up"
-                color="primary"
                 :label="message.likesCount"
-                @click="like(message.ownerId, message.id)"
+                :loading="isLoading[idx].like"
+                :color="message.userLikes ? 'negative' : 'primary'"
+                @click="like(message.ownerId, message.id, idx)"
               >
               </q-btn>
               <q-btn
                 flat
                 dense
                 icon="send"
-                :loading="isLoading[idx]"
+                :loading="isLoading[idx].repost"
                 :color="message.userReposted ? 'negative' : 'primary'"
                 :label="message.repostsCount"
                 @click="repost(message.ownerId, message.id, idx)"
@@ -64,7 +65,7 @@ const q = useQuasar();
 
 const messages = computed(() => isReposted.value ? store.messages.filter(a => !a.userReposted) : store.messages);
 const search = ref('');
-const isLoading = ref<Array<boolean>>([]);
+const isLoading = ref<{ like: boolean, repost: boolean }[]>([]);
 const cardLoading = ref('');
 const isSearch = ref<boolean>(false);
 const isReposted = ref(false);
@@ -74,7 +75,7 @@ const isCardLoading = (ownerId: number, id: number) => {
 }
 
 watch(messages, () => {
-  isLoading.value = messages.value.map(() => false);
+  isLoading.value = messages.value.map(() => ({ like: false, repost: false }));
 });
 
 const onSubmit = async () => {
@@ -86,13 +87,18 @@ const onSubmit = async () => {
   }
 };
 
-const like = async (ownerId: number, id: number) => {
-  await messageService.like(ownerId, id);
+const like = async (ownerId: number, id: number, idx: number) => {
+  try {
+    isLoading.value[idx].like = true;
+    await store.like(ownerId, id);
+  } finally {
+    isLoading.value[idx].like = false;
+  }
 };
 
 const repost = async (ownerId: number, id: number, idx: number) => {
   try {
-    isLoading.value[idx] = true;
+    isLoading.value[idx].repost = true;
     await store.repost([
       {
         ownerId,
@@ -102,7 +108,7 @@ const repost = async (ownerId: number, id: number, idx: number) => {
   } catch (e) {
     q.notify({badgePosition: 'top-right', type: 'negative', message: (e as AxiosError).message})
   } finally {
-    isLoading.value[idx] = false;
+    isLoading.value[idx].repost = false;
   }
 };
 </script>
