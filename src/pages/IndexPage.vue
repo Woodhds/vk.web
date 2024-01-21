@@ -1,48 +1,21 @@
 <template>
   <q-page padding>
-    <q-form
-      class="q-gutter-md q-pb-md"
-      style="max-width: 450px"
-      @submit.prevent="onSubmit"
-    >
-      <q-input
-        outlined
-        v-model="search"
-        autocomplete="off"
-        dense
-        label="Поиск"
-      ></q-input>
+    <q-form class="q-gutter-md q-pb-md" style="max-width: 450px" @submit.prevent="onSubmit">
+      <q-input outlined v-model="search" autocomplete="off" dense label="Поиск"></q-input>
       <q-btn color="primary" type="submit" :loading="isSearch">Отправить</q-btn>
-      <q-checkbox label="Скрыть репостнутые" v-model="isReposted" dense/>
+      <q-checkbox label="Скрыть репостнутые" v-model="isReposted" dense />
     </q-form>
     <div class="row q-col-gutter-md">
-      <div
-        v-for="(m, idx) in messages"
-        :key="`${m.ownerId}_${m.id}`"
-        class="col-xs-12 col-sm-6 col-md-4"
-      >
+      <div v-for="(m, idx) in messages" :key="`${m.ownerId}_${m.id}`" class="col-xs-12 col-sm-6 col-md-4">
         <card-panel :message="m" :is-loading="isCardLoading(m.ownerId, m.id)">
           <template #bottom="{ message }">
             <q-card-actions>
-              <q-btn
-                flat
-                dense
-                icon="thumb_up"
-                :label="message.likesCount"
-                :loading="isLoading[idx].like"
-                :color="message.userLikes ? 'negative' : 'primary'"
-                @click="like(message.ownerId, message.id, idx)"
-              >
+              <q-btn flat dense icon="thumb_up" :label="message.likesCount" :loading="isLoading[idx].like"
+                :color="message.userLikes ? 'negative' : 'primary'" @click="like(message.ownerId, message.id, idx)">
               </q-btn>
-              <q-btn
-                flat
-                dense
-                icon="send"
-                :loading="isLoading[idx].repost"
-                :color="message.userReposted ? 'negative' : 'primary'"
-                :label="message.repostsCount"
-                @click="repost(message.ownerId, message.id, idx)"
-              >
+              <q-btn flat dense icon="send" :loading="isLoading[idx].repost"
+                :color="message.userReposted ? 'negative' : 'primary'" :label="message.repostsCount"
+                @click="repost(message.ownerId, message.id, idx)">
               </q-btn>
             </q-card-actions>
           </template>
@@ -54,11 +27,10 @@
 
 <script setup lang="ts">
 import CardPanel from 'components/CardPanel.vue';
-import {computed, ref, watch} from 'vue';
-import {useMessagesStore} from 'src/stores/messages';
-import messageService from 'src/api/messages';
-import {useQuasar} from 'quasar'
-import {AxiosError} from 'axios';
+import { computed, ref, watch } from 'vue';
+import { useMessagesStore } from 'src/stores/messages';
+import { useQuasar } from 'quasar'
+import { AxiosError } from 'axios';
 
 const store = useMessagesStore();
 const q = useQuasar();
@@ -106,7 +78,7 @@ const repost = async (ownerId: number, id: number, idx: number) => {
       },
     ]);
   } catch (e) {
-    q.notify({badgePosition: 'top-right', type: 'negative', message: (e as AxiosError).message})
+    q.notify({ badgePosition: 'top-right', type: 'negative', message: (e as AxiosError).message })
   } finally {
     isLoading.value[idx].repost = false;
   }
